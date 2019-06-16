@@ -1,7 +1,7 @@
 {
     "name": "@mjamsek/metrics-monitor",
     "version": "0.0.1",
-    "description": "Library for capturing HTML metrics",
+    "description": "Library for capturing HTML5 metrics",
     "main": "dist/metrics.monitor.js",
     "types": "dist/index.d.ts",
     "files": [
@@ -44,6 +44,6 @@
         "tslint": "~5.17.0"
     },
     "publishConfig": {
-        "registry": "https://nexus.mjamsek.com/repository/npm-registry/"
+        "registry": "https://nexus.mjamsek.com/repository/npm-snapshots/"
     }
 }

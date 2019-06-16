@@ -1,0 +1,36 @@
+kumuluzee:
+  name: metrics-monitor
+  version: 0.0.1
+  env:
+    prod: false
+    name: dev
+  server:
+    show-server-info: false
+    base-url: http://localhost:8080
+  cors-filter:
+    servlet:
+      allow-origin: "*"
+      supported-methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD"
+      exposed-headers: "X-Total-Count"
+  logs:
+    loggers:
+      - name: ''
+        level: DEBUG
+  health:
+    servlet:
+      mapping: /health
+      enabled: true
+    checks:
+      data-source-health-check:
+        jndi-name: jdbc/mainDB
+  datasources:
+    - jndi-name: jdbc/mainDB
+      connection-url: jdbc:postgresql://localhost:5432/metrics-monitor
+      username: postgres
+      password: postgres
+      pool:
+        max-size: 10
+  openapi:
+    enabled: true
+    ui:
+      enabled: true

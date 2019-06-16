@@ -6,8 +6,8 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 module.exports = {
     mode: "production",
     entry: {
-        "metrics.monitor": "./src/main.ts",
-        "metrics.monitor.min": "./src/main.ts"
+        "metrics.monitor": "./src/index.ts",
+        "metrics.monitor.min": "./src/index.ts"
     },
     output: {
         path: path.resolve(__dirname, "dist"),
