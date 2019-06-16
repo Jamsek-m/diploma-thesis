@@ -1,0 +1,49 @@
+{
+    "name": "@mjamsek/metrics-monitor",
+    "version": "0.0.1",
+    "description": "Library for capturing HTML metrics",
+    "main": "dist/metrics.monitor.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist/**/*"
+    ],
+    "scripts": {
+        "lint": "tslint -p . --fix",
+        "compile": "tsc",
+        "build": "webpack",
+        "prepublish": "npm run build"
+    },
+    "keywords": [
+        "metrics",
+        "monitoring"
+    ],
+    "author": "Miha Jamšek <miha_jamsek@windowslive.com> (https://github.com/Jamsek-m)",
+    "maintainers": [
+        {
+            "name": "Miha Jamšek",
+            "email": "miha_jamsek@windowslive.com",
+            "url": "https://github.com/Jamsek-m"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Jamsek-m/diploma-thesis"
+    },
+    "bugs": {
+        "email": "miha_jamsek@windowslive.com",
+        "url": "https://github.com/Jamsek-m/diploma-thesis/issues"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "webpack": "~4.34.0",
+        "terser-webpack-plugin": "~1.3.0",
+        "clean-webpack-plugin": "~3.0.0",
+        "ts-loader": "~6.0.2",
+        "webpack-cli": "~3.3.4",
+        "typescript": "~3.5.2",
+        "tslint": "~5.17.0"
+    },
+    "publishConfig": {
+        "registry": "https://nexus.mjamsek.com/repository/npm-registry/"
+    }
+}
