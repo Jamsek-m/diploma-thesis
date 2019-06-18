@@ -1,0 +1,20 @@
+{
+  "name": "plain-html-sample",
+  "version": "1.0.0",
+  "description": "Plain HTML sample for Metric Monitor library",
+  "private": true,
+  "scripts": {
+    "start": "live-server . --port=8081"
+  },
+  "author": "Miha Jamsek <miha_jamsek@windowslive.com> (https://github.com/Jamsek-m)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jamsek-m/diploma-thesis"
+  },
+  "dependencies": {
+    "@mjamsek/metrics-monitor": "0.0.1"
+  },
+  "devDependencies": {
+    "live-server": "~1.2.1"
+  }
+}
