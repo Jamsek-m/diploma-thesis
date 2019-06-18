@@ -3,17 +3,17 @@ export class AjaxResponse<T> {
     public status: number;
     public headers: Map<string, string> = new Map<string, string>();
 
-    public _withBody(body: T): AjaxResponse<T> {
+    public withBody(body: T): AjaxResponse<T> {
         this.body = body as T;
         return this;
     }
 
-    public _withStatus(status: number): AjaxResponse<T> {
+    public withStatus(status: number): AjaxResponse<T> {
         this.status = status;
         return this;
     }
 
-    public _withHeaders(headersString: string): AjaxResponse<T> {
+    public withHeaders(headersString: string): AjaxResponse<T> {
         const headers = headersString.split("\r\n");
         headers.forEach((headerEntry: string) => {
             if (headerEntry && headerEntry !== "") {

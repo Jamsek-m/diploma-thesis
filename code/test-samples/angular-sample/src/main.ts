@@ -10,12 +10,12 @@ if (environment.production) {
 }
 
 MetricsMonitor.init({
-    mode: "capture",
+    applicationName: "angular-sample",
     serverUrl: "http://localhost:8080",
     log: "debug"
 }).then(() => {
     platformBrowserDynamic().bootstrapModule(AppModule)
         .catch(err => console.error(err));
-}).catch((err) => {
+}).catch((err: Error) => {
     console.error(err);
 });

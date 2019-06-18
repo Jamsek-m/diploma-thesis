@@ -1,3 +1,2 @@
-export * from "./classes";
-export * from "./configuration";
-export * from "./initialization";
+export {MetricsMonitor} from "./bootstrap";
+export {Configuration} from "./configuration";

@@ -36,20 +36,20 @@ export class AjaxCaller<REQ, RES> {
             this.request.headers.forEach((val: string, key: string) => {
                 req.setRequestHeader(key, val);
             });
-            req.addEventListener("load", () => {
+            req.addEventListener("load", ($event: ProgressEvent) => {
                 try {
                     const responseJSON = JSON.parse(req.responseText);
                     const response = new AjaxResponse<RES>()
-                        ._withStatus(req.status)
-                        ._withHeaders(req.getAllResponseHeaders())
-                        ._withBody(responseJSON);
+                        .withStatus(req.status)
+                        .withHeaders(req.getAllResponseHeaders())
+                        .withBody(responseJSON);
                     resolve(response);
                 } catch (parsingError) {
                     reject(new TypeError("Error parsing response body! Currently only JSON format is supported."));
                 }
             });
-            req.addEventListener("error", (err) => {
-                reject(err);
+            req.addEventListener("error", ($event: ProgressEvent) => {
+                reject(new Error("Error when performing ajax request!"));
             });
             if (this.request.body) {
                 req.send(JSON.stringify(this.request.body));
