@@ -1,0 +1,25 @@
+version: "3"
+services:
+  zookeeper:
+    ports:
+      - "2181:2181"
+    image: zookeeper:3.4
+  kafka:
+    ports:
+      - "9092:9092"
+    image: ches/kafka
+    depends_on:
+      - zookeeper
+    environment:
+      - ZOOKEEPER_IP=zookeeper
+      - KAFKA_ADVERTISED_HOST_NAME=docker.for.win.localhost
+  metrics-monitor-service:
+    ports:
+      - "8080:8080"
+    image: 
+    depends_on:
+      - kafka
+  metrics-monitor-angular-sample:
+    ports:
+      - "4200:4200"
+    image:
