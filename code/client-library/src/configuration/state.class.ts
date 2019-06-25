@@ -11,9 +11,15 @@ export class MonitorState {
 
     public serverConnected: boolean;
     public socketConnected: boolean;
+    public socketSessionId: string;
 
     constructor() {
         this.serverConnected = false;
         this.socketConnected = false;
+        this.socketSessionId = null;
+    }
+
+    public setSocketSessionId(sessionId: string): void {
+        this.socketSessionId = sessionId;
     }
 }

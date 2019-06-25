@@ -3,15 +3,23 @@ package com.mjamsek.metrics.entities.socket;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.mjamsek.metrics.entities.socket.registration.SocketRegistrationRequestMessage;
+import com.mjamsek.metrics.entities.socket.registration.SocketRegistrationResponseMessage;
+import com.mjamsek.metrics.entities.socket.session.SocketSessionMessage;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
-@JsonSubTypes(
-    @JsonSubTypes.Type(value = SocketRegistrationMessage.class, name = "REGISTRATION")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = "type", visible = true
 )
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = SocketRegistrationRequestMessage.class, name = "REGISTRATION_REQUEST"),
+    @JsonSubTypes.Type(value = SocketRegistrationResponseMessage.class, name = "REGISTRATION_RESPONSE"),
+    @JsonSubTypes.Type(value = SocketSessionMessage.class, name = "SESSION")
+})
 public class SocketMessage {
     
-    private SocketMessageType type;
+    protected SocketMessageType type;
     
     public SocketMessageType getType() {
         return type;

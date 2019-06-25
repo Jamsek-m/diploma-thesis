@@ -61,6 +61,10 @@
             <artifactId>kumuluzee-logs-log4j2</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.kumuluz.ee.streaming</groupId>
+            <artifactId>kumuluzee-streaming-kafka</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>

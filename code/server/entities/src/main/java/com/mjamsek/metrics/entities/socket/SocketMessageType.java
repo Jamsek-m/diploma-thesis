@@ -1,7 +1,9 @@
 package com.mjamsek.metrics.entities.socket;
 
 public enum SocketMessageType {
-    REGISTRATION("REGISTRATION");
+    SESSION("SESSION"),
+    REGISTRATION_RESPONSE("REGISTRATION_RESPONSE"),
+    REGISTRATION_REQUEST("REGISTRATION_REQUEST");
     
     private String name;
     
