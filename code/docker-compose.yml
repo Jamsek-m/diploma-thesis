@@ -1,5 +1,13 @@
 version: "3"
 services:
+  postgres:
+    image: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=metrics-monitor
   zookeeper:
     ports:
       - "2181:2181"
@@ -19,6 +27,12 @@ services:
     image: 
     depends_on:
       - kafka
+      - postgres
+    environment:
+      - KUMULUZEE_DATASOURCES0_CONNECTIONURL=jdbc:postgresql://postgres:5433/metrics-monitor
+      - KUMULUZEE_DATASOURCES0_USERNAME=postgres
+      - KUMULUZEE_DATASOURCES0_PASSWORD=postgres
+      - KUMULUZEE_LOGS_LOGGERS0_LEVEL=INFO
   metrics-monitor-angular-sample:
     ports:
       - "4200:4200"
