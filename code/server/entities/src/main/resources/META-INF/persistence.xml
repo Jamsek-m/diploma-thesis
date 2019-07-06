@@ -4,7 +4,7 @@
 
         <jta-data-source>jdbc/mainDB</jta-data-source>
 
-        <class>com.mjamsek.metrics.entities.TestEntity</class>
+        <class>com.mjamsek.metrics.entities.db.MouseTrackRecordEntity</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>

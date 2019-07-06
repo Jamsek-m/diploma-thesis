@@ -1,0 +1,24 @@
+@import "./variables";
+
+.heatmap-node {
+  opacity: 0.2;
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  z-index: -1;
+  border-radius: 10px;
+
+  &.heatmap-node-red {
+    background-color: #cf0e11;
+  }
+  &.heatmap-node-yellow {
+    background-color: #ffe928;
+  }
+  &.heatmap-node-green {
+    background-color: #0d8007;
+  }
+  &.heatmap-node-transparent {
+    background-color: transparent;
+  }
+}

@@ -1,4 +1,4 @@
-package com.mjamsek.metrics.entities.socket;
+package com.mjamsek.metrics.lib.socket;
 
 public enum SocketMessageType {
     SESSION("SESSION"),

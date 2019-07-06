@@ -1,6 +1,7 @@
 import {ConfigService, Configuration} from "../configuration";
 import {Logger} from "../log";
 import {registerTrackers} from "../metrics";
+import {HeatmapService} from "../reports";
 import {ServerHealthUtil} from "../server";
 import {SocketService} from "../socket";
 
@@ -26,25 +27,7 @@ export class MetricsMonitor {
                     // Healthcheck returned ok, we can connect
                     Logger.debug("Server healtcheck succeeded.");
 
-                    SocketService
-                        .connectSocket(ConfigService.getConfig().serverUrl)
-                        .then(() => {
-
-                            Logger.debug("Connection to socket is now established.");
-
-                            registerTrackers();
-
-                            resolve();
-                        })
-                        .catch((err: Error) => {
-
-                            if (ConfigService.getConfig().silentFail) {
-                                Logger.warn("Error on socket connection!");
-                                resolve();
-                            } else {
-                                reject(err);
-                            }
-                        });
+                    MetricsMonitor.resolveMode(resolve, reject);
                 })
                 .catch((err: Error) => {
 
@@ -56,6 +39,38 @@ export class MetricsMonitor {
                     }
                 });
         });
+    }
+
+    private static resolveMode(resolve: any, reject: any) {
+
+        switch (ConfigService.getConfig().mode) {
+            case "heatmap":
+                HeatmapService.drawHeatmap();
+                resolve();
+                break;
+            default:
+            case "capture":
+                SocketService
+                    .connectSocket(ConfigService.getConfig().serverUrl)
+                    .then(() => {
+
+                        Logger.debug("Connection to socket is now established.");
+
+                        registerTrackers();
+
+                        resolve();
+                    })
+                    .catch((err: Error) => {
+
+                        if (ConfigService.getConfig().silentFail) {
+                            Logger.warn("Error on socket connection!");
+                            resolve();
+                        } else {
+                            reject(err);
+                        }
+                    });
+                break;
+        }
     }
 
 }

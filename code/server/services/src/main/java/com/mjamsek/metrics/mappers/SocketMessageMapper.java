@@ -1,11 +1,11 @@
 package com.mjamsek.metrics.mappers;
 
-import com.mjamsek.metrics.entities.socket.SocketMessage;
-import com.mjamsek.metrics.entities.socket.registration.SocketRegistrationRequestMessage;
-import com.mjamsek.metrics.entities.socket.registration.SocketRegistrationResponseMessage;
-import com.mjamsek.metrics.entities.socket.session.MouseTrackMessage;
-import com.mjamsek.metrics.entities.socket.session.SessionPingMessage;
-import com.mjamsek.metrics.entities.socket.session.SocketSessionMessage;
+import com.mjamsek.metrics.lib.socket.SocketMessage;
+import com.mjamsek.metrics.lib.socket.registration.SocketRegistrationRequestMessage;
+import com.mjamsek.metrics.lib.socket.registration.SocketRegistrationResponseMessage;
+import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
+import com.mjamsek.metrics.lib.socket.session.SessionPingMessage;
+import com.mjamsek.metrics.lib.socket.session.SocketSessionMessage;
 
 public class SocketMessageMapper {
     

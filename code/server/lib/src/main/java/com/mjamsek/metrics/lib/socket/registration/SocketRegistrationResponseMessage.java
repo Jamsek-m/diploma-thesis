@@ -1,8 +1,8 @@
-package com.mjamsek.metrics.entities.socket.registration;
+package com.mjamsek.metrics.lib.socket.registration;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mjamsek.metrics.entities.socket.SocketMessage;
-import com.mjamsek.metrics.entities.socket.SocketMessageType;
+import com.mjamsek.metrics.lib.socket.SocketMessage;
+import com.mjamsek.metrics.lib.socket.SocketMessageType;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SocketRegistrationResponseMessage extends SocketMessage {

@@ -1,10 +1,10 @@
-package com.mjamsek.metrics.entities.socket.session;
+package com.mjamsek.metrics.lib.socket.session;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.mjamsek.metrics.entities.socket.SocketMessage;
-import com.mjamsek.metrics.entities.socket.SocketMessageType;
+import com.mjamsek.metrics.lib.socket.SocketMessage;
+import com.mjamsek.metrics.lib.socket.SocketMessageType;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
@@ -20,6 +20,8 @@ public class SocketSessionMessage extends SocketMessage {
     protected SocketSessionType sessionType;
     
     protected String sessionId;
+    
+    protected String application;
     
     public SocketSessionMessage() {
         this.type = SocketMessageType.SESSION;
@@ -39,5 +41,13 @@ public class SocketSessionMessage extends SocketMessage {
     
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+    
+    public String getApplication() {
+        return application;
+    }
+    
+    public void setApplication(String application) {
+        this.application = application;
     }
 }

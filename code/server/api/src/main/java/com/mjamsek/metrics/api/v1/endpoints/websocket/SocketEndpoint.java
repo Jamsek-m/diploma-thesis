@@ -1,9 +1,8 @@
-package com.mjamsek.metrics.api.v1.endpoints;
+package com.mjamsek.metrics.api.v1.endpoints.websocket;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kumuluz.ee.logs.LogManager;
 import com.kumuluz.ee.logs.Logger;
-import com.mjamsek.metrics.entities.socket.SocketMessage;
+import com.mjamsek.metrics.lib.socket.SocketMessage;
 import com.mjamsek.metrics.mappers.SocketMessageDecoder;
 import com.mjamsek.metrics.mappers.SocketMessageEncoder;
 import com.mjamsek.metrics.services.SocketService;

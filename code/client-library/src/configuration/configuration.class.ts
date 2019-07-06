@@ -3,7 +3,7 @@ import {LoggerLevel} from "../log";
 /**
  * Allowed modes enum
  */
-export type MetricsMonitorMode = "capture" | "read";
+export type MetricsMonitorMode = "capture" | "heatmap";
 
 /**
  * Configuration interface for configuring Metrics Monitor library.

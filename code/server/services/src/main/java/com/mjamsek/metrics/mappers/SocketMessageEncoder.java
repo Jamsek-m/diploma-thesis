@@ -2,7 +2,7 @@ package com.mjamsek.metrics.mappers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mjamsek.metrics.entities.socket.SocketMessage;
+import com.mjamsek.metrics.lib.socket.SocketMessage;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
@@ -19,9 +19,7 @@ public class SocketMessageEncoder implements Encoder.Text<SocketMessage> {
     public String encode(SocketMessage object) throws EncodeException {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            String res = objectMapper.writeValueAsString(object);
-            System.err.println(res);
-            return res;
+            return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return null;

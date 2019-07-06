@@ -31,6 +31,7 @@
         <module>api</module>
         <module>services</module>
         <module>entities</module>
+        <module>lib</module>
     </modules>
 
     <properties>
@@ -64,6 +65,11 @@
             <dependency>
                 <groupId>com.mjamsek.metrics</groupId>
                 <artifactId>services</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mjamsek.metrics</groupId>
+                <artifactId>lib</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

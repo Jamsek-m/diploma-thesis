@@ -1,4 +1,4 @@
-package com.mjamsek.metrics.entities.socket.session;
+package com.mjamsek.metrics.lib.socket.session;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

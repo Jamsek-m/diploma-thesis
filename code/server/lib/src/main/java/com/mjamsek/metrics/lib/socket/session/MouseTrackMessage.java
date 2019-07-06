@@ -1,4 +1,4 @@
-package com.mjamsek.metrics.entities.socket.session;
+package com.mjamsek.metrics.lib.socket.session;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,22 +23,22 @@ public class MouseTrackMessage extends SocketSessionMessage {
     
     public static class Coordinates {
         
-        private int pageX;
-        private int pageY;
-    
-        public int getPageX() {
+        private Integer pageX;
+        private Integer pageY;
+        
+        public Integer getPageX() {
             return pageX;
         }
-    
-        public void setPageX(int pageX) {
+        
+        public void setPageX(Integer pageX) {
             this.pageX = pageX;
         }
-    
-        public int getPageY() {
+        
+        public Integer getPageY() {
             return pageY;
         }
-    
-        public void setPageY(int pageY) {
+        
+        public void setPageY(Integer pageY) {
             this.pageY = pageY;
         }
     }

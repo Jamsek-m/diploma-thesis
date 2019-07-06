@@ -1,6 +1,6 @@
 package com.mjamsek.metrics.services;
 
-import com.mjamsek.metrics.entities.socket.SocketMessage;
+import com.mjamsek.metrics.lib.socket.SocketMessage;
 
 import javax.websocket.Session;
 

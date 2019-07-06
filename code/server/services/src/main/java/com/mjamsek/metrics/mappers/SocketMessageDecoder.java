@@ -3,7 +3,7 @@ package com.mjamsek.metrics.mappers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kumuluz.ee.logs.LogManager;
 import com.kumuluz.ee.logs.Logger;
-import com.mjamsek.metrics.entities.socket.SocketMessage;
+import com.mjamsek.metrics.lib.socket.SocketMessage;
 
 import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
