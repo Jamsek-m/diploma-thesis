@@ -4,6 +4,7 @@ import {SocketMessage, SocketMessageType} from "./socket.message.class";
 
 export enum SocketSessionType {
     MOUSE_TRACK = "MOUSE_TRACK",
+    PING = "PING",
 }
 
 export class SessionSocketMessage extends SocketMessage {
@@ -25,5 +26,12 @@ export class MouseTrackMessage extends SessionSocketMessage {
     constructor() {
         super();
         this.sessionType = SocketSessionType.MOUSE_TRACK;
+    }
+}
+
+export class SessionPingMessage extends SessionSocketMessage {
+    constructor() {
+        super();
+        this.sessionType = SocketSessionType.PING;
     }
 }

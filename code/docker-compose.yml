@@ -1,39 +1,56 @@
 version: "3"
+
+networks:
+  access-host-net:
+    external: true
+
 services:
   postgres:
     image: postgres
     ports:
       - "5433:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=metrics-monitor
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: metrics-monitor
+    networks:
+      - access-host-net
+
   zookeeper:
+    image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
-    image: zookeeper:3.4
+    networks:
+      - access-host-net
+
   kafka:
+    image: wurstmeister/kafka
     ports:
       - "9092:9092"
-    image: ches/kafka
     depends_on:
       - zookeeper
     environment:
-      - ZOOKEEPER_IP=zookeeper
-      - KAFKA_ADVERTISED_HOST_NAME=docker.for.win.localhost
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    networks:
+      - access-host-net
+
   metrics-monitor-service:
     ports:
       - "8080:8080"
-    image: 
+    image: docker.mjamsek.com/metrics-monitor-service
     depends_on:
       - kafka
       - postgres
     environment:
-      - KUMULUZEE_DATASOURCES0_CONNECTIONURL=jdbc:postgresql://postgres:5433/metrics-monitor
-      - KUMULUZEE_DATASOURCES0_USERNAME=postgres
-      - KUMULUZEE_DATASOURCES0_PASSWORD=postgres
-      - KUMULUZEE_LOGS_LOGGERS0_LEVEL=INFO
+      KUMULUZEE_DATASOURCES0_CONNECTIONURL: jdbc:postgresql://postgres:5433/metrics-monitor
+      KUMULUZEE_DATASOURCES0_USERNAME: postgres
+      KUMULUZEE_DATASOURCES0_PASSWORD: postgres
+      KUMULUZEE_LOGS_LOGGERS0_LEVEL: INFO
+    networks:
+      - access-host-net
+
   metrics-monitor-angular-sample:
     ports:
       - "4200:4200"
-    image:
+    image: docker.mjamsek.com/angular-sample

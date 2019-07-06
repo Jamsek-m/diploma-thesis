@@ -12,11 +12,14 @@ import com.mjamsek.metrics.entities.socket.SocketMessageType;
     property = "sessionType", visible = true
 )
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = MouseTrackMessage.class, name = "MOUSE_TRACK")
+    @JsonSubTypes.Type(value = MouseTrackMessage.class, name = "MOUSE_TRACK"),
+    @JsonSubTypes.Type(value = SessionPingMessage.class, name = "PING")
 })
 public class SocketSessionMessage extends SocketMessage {
     
     protected SocketSessionType sessionType;
+    
+    protected String sessionId;
     
     public SocketSessionMessage() {
         this.type = SocketMessageType.SESSION;
@@ -28,5 +31,13 @@ public class SocketSessionMessage extends SocketMessage {
     
     public void setSessionType(SocketSessionType sessionType) {
         this.sessionType = sessionType;
+    }
+    
+    public String getSessionId() {
+        return sessionId;
+    }
+    
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

@@ -11,7 +11,7 @@
         "lint": "tslint -p . --fix",
         "compile": "tsc",
         "build": "webpack",
-        "prepublish": "npm run build"
+        "prepublishOnly": "npm run build"
     },
     "keywords": [
         "metrics",

@@ -1,5 +1,6 @@
 import {ConfigService, Configuration} from "../configuration";
 import {Logger} from "../log";
+import {registerTrackers} from "../metrics";
 import {ServerHealthUtil} from "../server";
 import {SocketService} from "../socket";
 
@@ -30,6 +31,9 @@ export class MetricsMonitor {
                         .then(() => {
 
                             Logger.debug("Connection to socket is now established.");
+
+                            registerTrackers();
+
                             resolve();
                         })
                         .catch((err: Error) => {

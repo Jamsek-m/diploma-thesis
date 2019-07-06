@@ -4,30 +4,30 @@ import {MouseTrackMessage} from "../socket/messages/session.socket.message.class
 
 export class MouseTracker {
 
-    private BUFFER: MouseRecord[];
+    private static BUFFER: MouseRecord[];
 
-    private BUFFER_LIMIT = 10;
+    private static BUFFER_LIMIT = 10;
 
-    public registerMouseTracker(bufferLimit: number = 10) {
-        this.BUFFER_LIMIT = bufferLimit;
-        this.BUFFER = [];
-        window.addEventListener("mousemove", this.onMouseTrack.bind(this));
+    public static registerMouseTracker(bufferLimit: number = 10) {
+        MouseTracker.BUFFER_LIMIT = bufferLimit;
+        MouseTracker.BUFFER = [];
+        window.addEventListener("mousemove", MouseTracker.onMouseTrack);
     }
 
-    private onMouseTrack(e: MouseEvent): void {
-        if (this.BUFFER.length < this.BUFFER_LIMIT) {
+    private static onMouseTrack(e: MouseEvent): void {
+        if (MouseTracker.BUFFER.length < MouseTracker.BUFFER_LIMIT) {
             const record: MouseRecord = {
                 pageX: e.pageX,
                 pageY: e.pageY,
             };
-            this.BUFFER.push(record);
+            MouseTracker.BUFFER.push(record);
         } else {
             const mouseTrackMessage = new MouseTrackMessage();
-            mouseTrackMessage.coordinates = this.BUFFER;
+            mouseTrackMessage.coordinates = MouseTracker.BUFFER;
 
             SocketService.sendMessage(mouseTrackMessage);
 
-            this.BUFFER = [];
+            MouseTracker.BUFFER = [];
         }
     }
 

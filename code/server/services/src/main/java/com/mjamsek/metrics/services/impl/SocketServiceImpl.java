@@ -74,7 +74,7 @@ public class SocketServiceImpl implements SocketService {
             if (exception != null) {
                 exception.printStackTrace();
             } else {
-                LOG.info("Message for session '{}' was sent to kafka server!", "todo");
+                LOG.info("Message for session '{}' was sent to kafka server!", message.getSessionId());
             }
         });
     }

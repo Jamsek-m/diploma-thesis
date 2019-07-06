@@ -1,6 +1,7 @@
 package com.mjamsek.metrics.entities.socket.session;
 
 public enum SocketSessionType {
+    PING("PING"),
     MOUSE_TRACK("MOUSE_TRACK");
     
     private String name;

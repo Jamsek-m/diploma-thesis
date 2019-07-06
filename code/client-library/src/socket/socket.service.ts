@@ -3,10 +3,13 @@ import {SOCKET_ENDPOINT} from "../library.config";
 import {Logger} from "../log";
 import {SocketHandlerService} from "./handler";
 import {SocketMessage, SocketRegistrationRequestMessage} from "./messages";
+import {SessionPingMessage} from "./messages/session.socket.message.class";
 
 export class SocketService {
 
     private static socket: WebSocket;
+
+    private static intervalID: any = 0;
 
     public static connectSocket(serverUrl: string): Promise<void> {
 
@@ -23,17 +26,25 @@ export class SocketService {
             SocketService.socket.onopen = (e: Event) => {
                 MonitorState.getMonitorState().socketConnected = true;
                 SocketService.sendRegistrationEvent();
+                SocketService.intervalID = setInterval(SocketService.pingServerSocket, 60000);
                 resolve();
             };
 
             SocketService.socket.onclose = (e: CloseEvent) => {
                 Logger.debug("Socket connection was closed with reason: " + e.reason);
                 MonitorState.getMonitorState().socketConnected = false;
+                clearInterval(SocketService.intervalID);
                 reject(new Error("Socket connection was closed with reason: " + e.reason));
             };
 
             SocketService.socket.onmessage = SocketService.onSocketMessage.bind(this);
         });
+    }
+
+    private static pingServerSocket(): void {
+        const pingMessage = new SessionPingMessage();
+        Logger.debug("Pinging server");
+        SocketService.sendMessage(pingMessage);
     }
 
     public static sendMessage(message: SocketMessage): void {
@@ -44,7 +55,7 @@ export class SocketService {
 
     private static onSocketMessage(e: MessageEvent) {
         try {
-            const message: SocketMessage = JSON.parse(e.data) as SocketMessage;
+            const message: SocketMessage = Object.assign(new SocketMessage(), JSON.parse(e.data));
             SocketHandlerService.handleSocketMessage(message);
         } catch (e) {
             Logger.error("Error parsing socket message. Message must be valid JSON!");

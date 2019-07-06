@@ -23,7 +23,8 @@ public class SocketMessageDecoder implements Decoder.Text<SocketMessage> {
     public SocketMessage decode(String s) throws DecodeException {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(s, SocketMessage.class);
+            SocketMessage rootMessageData = objectMapper.readValue(s, SocketMessage.class);
+            return SocketMessageMapper.castMessage(rootMessageData, s);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

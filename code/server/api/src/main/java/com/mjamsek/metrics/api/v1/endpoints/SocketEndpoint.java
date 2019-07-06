@@ -12,6 +12,8 @@ import com.mjamsek.metrics.services.SocketSessionContext;
 import javax.inject.Inject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 @ServerEndpoint(value = "/socket", decoders = SocketMessageDecoder.class, encoders = SocketMessageEncoder.class)
 public class SocketEndpoint {
@@ -44,5 +46,13 @@ public class SocketEndpoint {
     public void onError(Throwable throwable, Session session) {
         LOG.error("Session id: {}, error: {}", session.getId(), throwable.getMessage());
         throwable.printStackTrace();
+    
+        if (throwable.getCause() instanceof TimeoutException) {
+            try {
+                session.close(new CloseReason(CloseReason.CloseCodes.SERVICE_RESTART, "Timeout"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

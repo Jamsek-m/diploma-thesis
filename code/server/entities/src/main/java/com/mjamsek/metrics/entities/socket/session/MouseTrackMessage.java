@@ -13,6 +13,14 @@ public class MouseTrackMessage extends SocketSessionMessage {
         super();
     }
     
+    public List<Coordinates> getCoordinates() {
+        return coordinates;
+    }
+    
+    public void setCoordinates(List<Coordinates> coordinates) {
+        this.coordinates = coordinates;
+    }
+    
     public static class Coordinates {
         
         private int pageX;

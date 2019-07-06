@@ -15,7 +15,7 @@ export class RegistrationResponseHandler implements SocketHandler {
 
     public handle(message: SocketMessage): void {
         const state = MonitorState.getMonitorState();
-        const msg = message as SocketRegistrationResponseMessage;
+        const msg = Object.assign(new SocketRegistrationResponseMessage(), message);
         const sesId = msg.getSessionId();
         state.setSocketSessionId(sesId);
         Logger.info(`Session was registered with id '${MonitorState.getMonitorState().socketSessionId}'`);
