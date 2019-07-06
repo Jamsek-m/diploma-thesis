@@ -22,6 +22,7 @@ The goal of this thesis is to design platform for monitoring metrics for single 
 │   ├───server
 │   │   ├───api
 │   │   ├───entities
+│   │   ├───lib
 │   │   └───services
 │   └───test-samples
 │       ├───angular-sample
@@ -38,3 +39,4 @@ Technologies used for platform:
 * Webpack - JavaScript bundler
 * Apache Kafka - Event streaming service
 * Zookeeper - Distributed configuration service
+* Docker - Containerization tool
