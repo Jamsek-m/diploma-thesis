@@ -14,7 +14,8 @@ import com.mjamsek.metrics.lib.socket.SocketMessageType;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = MouseTrackMessage.class, name = "MOUSE_TRACK"),
     @JsonSubTypes.Type(value = SessionPingMessage.class, name = "PING"),
-    @JsonSubTypes.Type(value = AppStartupMessage.class, name = "APP_STARTUP")
+    @JsonSubTypes.Type(value = AppStartupMessage.class, name = "APP_STARTUP"),
+    @JsonSubTypes.Type(value = PageLoadMessage.class, name = "PAGE_LOAD")
 })
 public class SocketSessionMessage extends SocketMessage {
     

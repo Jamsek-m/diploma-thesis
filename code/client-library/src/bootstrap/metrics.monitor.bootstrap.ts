@@ -2,6 +2,7 @@ import {ConfigService, Configuration} from "../configuration";
 import {Logger} from "../log";
 import {registerTrackers} from "../metrics";
 import {AppStartupTracker} from "../metrics/app.startup.tracker";
+import {PageLoadTracker} from "../metrics/page.load.tracker";
 import {HeatmapService} from "../reports";
 import {ServerHealthUtil} from "../server";
 import {SocketService} from "../socket";
@@ -48,6 +49,8 @@ export class MetricsMonitor {
                                 }
                             });
 
+                    } else {
+                        resolve();
                     }
 
                     MetricsMonitor.resolveMode();
@@ -95,6 +98,19 @@ export class MetricsMonitor {
         if (ConfigService.getConfig().mode === "capture") {
             AppStartupTracker.trackApplicationStartup();
         }
+    }
+
+    public static logPageLoadStart(pageName: string) {
+        if (ConfigService.getConfig().mode === "capture"){
+            PageLoadTracker.trackPageLoadStart(pageName);
+        }
+    }
+
+    public static logPageLoadEnd(pageName: string) {
+        if (ConfigService.getConfig().mode === "capture") {
+            PageLoadTracker.trackPageLoadEnd(pageName);
+        }
+
     }
 
 }

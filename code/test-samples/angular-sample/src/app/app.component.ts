@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {NavigationEnd, Router} from "@angular/router";
+import {AfterViewInit, Component, OnInit} from "@angular/core";
+import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 import {MetricsMonitor} from "@mjamsek/metrics-monitor";
 
 @Component({
@@ -7,7 +7,7 @@ import {MetricsMonitor} from "@mjamsek/metrics-monitor";
     templateUrl: "./app.component.html",
     styleUrls: ["./app.component.scss"]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
     title = "angular-sample";
 
     constructor(private router: Router) {
@@ -19,8 +19,14 @@ export class AppComponent implements OnInit {
         this.router.events.subscribe(routerEvent => {
             if (routerEvent instanceof NavigationEnd) {
                 MetricsMonitor.redrawHeatmap();
+            } else if (routerEvent instanceof NavigationStart) {
+                MetricsMonitor.logPageLoadStart(routerEvent.url);
             }
         });
+    }
+
+    ngAfterViewInit(): void {
+
     }
 
 }

@@ -6,6 +6,7 @@ export enum SocketSessionType {
     MOUSE_TRACK = "MOUSE_TRACK",
     PING = "PING",
     APP_STARTUP = "APP_STARTUP",
+    PAGE_LOAD = "PAGE_LOAD",
 }
 
 export class SessionSocketMessage extends SocketMessage {
@@ -47,5 +48,17 @@ export class AppStartupMessage extends SessionSocketMessage {
     constructor() {
         super();
         this.sessionType = SocketSessionType.APP_STARTUP;
+    }
+}
+
+export class PageLoadMessage extends SessionSocketMessage {
+    public loadStart: number;
+    public loadEnd: number;
+    public pathname: string;
+    public firstPage: boolean;
+
+    constructor() {
+        super();
+        this.sessionType = SocketSessionType.PAGE_LOAD;
     }
 }

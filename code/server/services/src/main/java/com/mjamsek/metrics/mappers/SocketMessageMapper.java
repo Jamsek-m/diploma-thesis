@@ -3,10 +3,7 @@ package com.mjamsek.metrics.mappers;
 import com.mjamsek.metrics.lib.socket.SocketMessage;
 import com.mjamsek.metrics.lib.socket.registration.SocketRegistrationRequestMessage;
 import com.mjamsek.metrics.lib.socket.registration.SocketRegistrationResponseMessage;
-import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
-import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
-import com.mjamsek.metrics.lib.socket.session.SessionPingMessage;
-import com.mjamsek.metrics.lib.socket.session.SocketSessionMessage;
+import com.mjamsek.metrics.lib.socket.session.*;
 
 public class SocketMessageMapper {
     
@@ -43,6 +40,8 @@ public class SocketMessageMapper {
                 return JacksonMapper.toEntity(rawMessage, SessionPingMessage.class);
             case APP_STARTUP:
                 return JacksonMapper.toEntity(rawMessage, AppStartupMessage.class);
+            case PAGE_LOAD:
+                return JacksonMapper.toEntity(rawMessage, PageLoadMessage.class);
             default:
                 return null;
         }

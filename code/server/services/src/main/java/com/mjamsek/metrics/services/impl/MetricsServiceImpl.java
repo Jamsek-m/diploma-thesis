@@ -2,12 +2,14 @@ package com.mjamsek.metrics.services.impl;
 
 import com.mjamsek.metrics.entities.db.AppStartupEntity;
 import com.mjamsek.metrics.entities.db.MouseTrackRecordEntity;
+import com.mjamsek.metrics.entities.db.PageLoadEntity;
 import com.mjamsek.metrics.lib.dto.HeatmapRequest;
 import com.mjamsek.metrics.lib.exceptions.ApplicationNotFoundException;
 import com.mjamsek.metrics.lib.heatmap.HeatRecord;
 import com.mjamsek.metrics.lib.heatmap.HeatmapReport;
 import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
 import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
+import com.mjamsek.metrics.lib.socket.session.PageLoadMessage;
 import com.mjamsek.metrics.lib.startup.AppStartupReport;
 import com.mjamsek.metrics.mappers.MetricsMapper;
 import com.mjamsek.metrics.services.MetricsService;
@@ -73,6 +75,22 @@ public class MetricsServiceImpl implements MetricsService {
             entity.setSessionId(message.getSessionId());
             entity.setApplication(message.getApplication());
             
+            em.persist(entity);
+        }
+    }
+    
+    @Transactional
+    @Override
+    public void handlePageLoadTracking(PageLoadMessage message) {
+        if (message != null) {
+            PageLoadEntity entity = new PageLoadEntity();
+            entity.setApplication(message.getApplication());
+            entity.setSessionId(message.getSessionId());
+            entity.setPathname(UrlUtil.normalizePathname(message.getPathname()));
+            entity.setLoadEnd(message.getLoadEnd());
+            entity.setLoadStart(message.getLoadStart());
+            entity.setFirstPage(message.getFirstPage());
+    
             em.persist(entity);
         }
     }

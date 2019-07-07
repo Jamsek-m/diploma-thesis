@@ -6,6 +6,7 @@
 
         <class>com.mjamsek.metrics.entities.db.MouseTrackRecordEntity</class>
         <class>com.mjamsek.metrics.entities.db.AppStartupEntity</class>
+        <class>com.mjamsek.metrics.entities.db.PageLoadEntity</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>

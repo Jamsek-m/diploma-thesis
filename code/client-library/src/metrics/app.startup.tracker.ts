@@ -7,14 +7,19 @@ export class AppStartupTracker {
 
     public static trackApplicationStartup() {
         const applicationLoaded = Date.now();
-        const navigationStart = typeof performance !== "undefined" ? performance.timeOrigin : null;
 
-        execSessionFunc(() => {
-            const message = new AppStartupMessage();
-            message.applicationLoaded = applicationLoaded;
-            message.navigationStart = navigationStart;
-            SocketService.sendMessage(message);
-        });
+        if (MonitorState.getMonitorState().startingApplication) {
+
+            const navigationStart = typeof performance !== "undefined" ? performance.timeOrigin : null;
+            MonitorState.getMonitorState().setStartedApplication();
+
+            execSessionFunc(() => {
+                const message = new AppStartupMessage();
+                message.applicationLoaded = applicationLoaded;
+                message.navigationStart = navigationStart;
+                SocketService.sendMessage(message);
+            });
+        }
     }
 
 }

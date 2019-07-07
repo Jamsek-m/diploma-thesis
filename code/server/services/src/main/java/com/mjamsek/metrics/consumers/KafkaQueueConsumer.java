@@ -3,10 +3,7 @@ package com.mjamsek.metrics.consumers;
 import com.kumuluz.ee.logs.LogManager;
 import com.kumuluz.ee.logs.Logger;
 import com.kumuluz.ee.streaming.common.annotations.StreamListener;
-import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
-import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
-import com.mjamsek.metrics.lib.socket.session.SocketSessionMessage;
-import com.mjamsek.metrics.lib.socket.session.SocketSessionType;
+import com.mjamsek.metrics.lib.socket.session.*;
 import com.mjamsek.metrics.mappers.SocketMessageMapper;
 import com.mjamsek.metrics.services.MetricsService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -39,6 +36,9 @@ public class KafkaQueueConsumer {
             } else if (message.getSessionType().equals(SocketSessionType.APP_STARTUP)) {
                 AppStartupMessage appStartupMessage = (AppStartupMessage) message;
                 metricsService.handleAppStartupTracking(appStartupMessage);
+            } else if (message.getSessionType().equals(SocketSessionType.PAGE_LOAD)) {
+                PageLoadMessage pageLoadMessage = (PageLoadMessage) message;
+                metricsService.handlePageLoadTracking(pageLoadMessage);
             }
         }
     }
