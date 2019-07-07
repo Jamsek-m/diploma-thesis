@@ -25,6 +25,7 @@ public class MouseTrackMessage extends SocketSessionMessage {
         
         private Integer pageX;
         private Integer pageY;
+        private String pathname;
         
         public Integer getPageX() {
             return pageX;
@@ -40,6 +41,14 @@ public class MouseTrackMessage extends SocketSessionMessage {
         
         public void setPageY(Integer pageY) {
             this.pageY = pageY;
+        }
+    
+        public String getPathname() {
+            return pathname;
+        }
+    
+        public void setPathname(String pathname) {
+            this.pathname = pathname;
         }
     }
 }

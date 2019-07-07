@@ -73,4 +73,15 @@ export class MetricsMonitor {
         }
     }
 
+    /**
+     * Redraws heatmap with fresh data from service.
+     * Usually it is called when navigating to new page, to get new page data.
+     * Works only in 'heatmap' mode.
+     */
+    public static redrawHeatmap(): void {
+        if (ConfigService.getConfig().mode === "heatmap") {
+            HeatmapService.drawHeatmap();
+        }
+    }
+
 }

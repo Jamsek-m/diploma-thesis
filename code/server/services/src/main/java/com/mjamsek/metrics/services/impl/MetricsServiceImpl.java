@@ -1,12 +1,14 @@
 package com.mjamsek.metrics.services.impl;
 
 import com.mjamsek.metrics.entities.db.MouseTrackRecordEntity;
+import com.mjamsek.metrics.lib.dto.HeatmapRequest;
 import com.mjamsek.metrics.lib.exceptions.ApplicationNotFoundException;
 import com.mjamsek.metrics.lib.heatmap.HeatRecord;
 import com.mjamsek.metrics.lib.heatmap.HeatmapReport;
 import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
 import com.mjamsek.metrics.mappers.MetricsMapper;
 import com.mjamsek.metrics.services.MetricsService;
+import com.mjamsek.metrics.utils.UrlUtil;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.*;
@@ -29,6 +31,7 @@ public class MetricsServiceImpl implements MetricsService {
                 MouseTrackRecordEntity existingEntity = getExistingCoordinate(
                     message.getApplication(),
                     message.getSessionId(),
+                    UrlUtil.normalizePathname(coordinates.getPathname()),
                     coordinates.getPageX() / 10,
                     coordinates.getPageY() / 10
                 );
@@ -46,6 +49,7 @@ public class MetricsServiceImpl implements MetricsService {
                     // consolidate coordinates inside 10x10px box
                     entity.setMouseX(coordinates.getPageX() / 10);
                     entity.setMouseY(coordinates.getPageY() / 10);
+                    entity.setPathname(UrlUtil.normalizePathname(coordinates.getPathname()));
                     // set initial heat of 1
                     entity.setHeatLevel(1L);
                     
@@ -56,10 +60,11 @@ public class MetricsServiceImpl implements MetricsService {
     }
     
     @Override
-    public HeatmapReport generateHeatmapReport(String applicationName, Long minHeatLevel) {
+    public HeatmapReport generateHeatmapReport(HeatmapRequest request, Long minHeatLevel) {
         TypedQuery<MouseTrackRecordEntity> query = em.createNamedQuery(MouseTrackRecordEntity.FIND_BY_APP_NAME, MouseTrackRecordEntity.class);
-        query.setParameter("application", applicationName);
+        query.setParameter("application", request.getApplicationName());
         query.setParameter("heatLevel", minHeatLevel);
+        query.setParameter("pathname", request.getPathname());
         
         List<MouseTrackRecordEntity> records = query.getResultList();
         
@@ -75,12 +80,13 @@ public class MetricsServiceImpl implements MetricsService {
         return report;
     }
     
-    private MouseTrackRecordEntity getExistingCoordinate(String app, String sessionId, Integer x, Integer y) {
+    private MouseTrackRecordEntity getExistingCoordinate(String app, String sessionId, String pathname, Integer x, Integer y) {
         TypedQuery<MouseTrackRecordEntity> query = em.createNamedQuery(MouseTrackRecordEntity.FIND_EXISTING_COORDINATES, MouseTrackRecordEntity.class);
         query.setParameter("application", app);
         query.setParameter("sessionId", sessionId);
         query.setParameter("mouseX", x);
         query.setParameter("mouseY", y);
+        query.setParameter("pathname", pathname);
         try {
             return query.getSingleResult();
         } catch (NoResultException e) {

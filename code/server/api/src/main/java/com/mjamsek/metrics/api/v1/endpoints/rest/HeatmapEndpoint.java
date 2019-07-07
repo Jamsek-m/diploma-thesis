@@ -1,5 +1,6 @@
 package com.mjamsek.metrics.api.v1.endpoints.rest;
 
+import com.mjamsek.metrics.lib.dto.HeatmapRequest;
 import com.mjamsek.metrics.lib.exceptions.ExceptionResponse;
 import com.mjamsek.metrics.lib.heatmap.HeatmapReport;
 import com.mjamsek.metrics.services.MetricsService;
@@ -31,13 +32,12 @@ public class HeatmapEndpoint {
             @ApiResponse(responseCode = "404", description = "Records for given application name weren't found.",
                 content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
         })
-    @GET
-    @Path("/{applicationName}")
+    @POST
     public Response generateHeatmap(
         @QueryParam("minHeat") @DefaultValue("1") Long minHeatLevel,
-        @PathParam("applicationName") String applicationName
+        HeatmapRequest request
     ) {
-        HeatmapReport report = metricsService.generateHeatmapReport(applicationName, minHeatLevel);
+        HeatmapReport report = metricsService.generateHeatmapReport(request, minHeatLevel);
         return Response.ok(report).build();
     }
     

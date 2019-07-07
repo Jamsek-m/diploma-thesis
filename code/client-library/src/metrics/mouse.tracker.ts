@@ -1,6 +1,7 @@
 import {MouseRecord} from "../classes/mouse.record.interface";
 import {SocketService} from "../socket";
 import {MouseTrackMessage} from "../socket/messages/session.socket.message.class";
+import {UrlUtil} from "../utils/url.util";
 
 export class MouseTracker {
 
@@ -19,6 +20,7 @@ export class MouseTracker {
             const record: MouseRecord = {
                 pageX: e.pageX,
                 pageY: e.pageY,
+                pathname: UrlUtil.getCurrentPathname(),
             };
             MouseTracker.BUFFER.push(record);
         } else {

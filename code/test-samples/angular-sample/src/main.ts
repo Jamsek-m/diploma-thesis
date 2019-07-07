@@ -13,7 +13,10 @@ MetricsMonitor.init({
     applicationName: "angular-sample",
     mode: "heatmap",
     serverUrl: "http://localhost:8080",
-    log: "debug"
+    log: "debug",
+    urlsWithParameters: [
+        "/second/{id}"
+    ]
 }).then(() => {
     platformBrowserDynamic().bootstrapModule(AppModule)
         .catch(err => console.error(err));

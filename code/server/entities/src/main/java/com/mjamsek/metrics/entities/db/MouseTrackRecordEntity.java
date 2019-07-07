@@ -9,10 +9,10 @@ import javax.persistence.*;
         query = "SELECT m FROM MouseTrackRecordEntity m WHERE m.sessionId = :sessionId ORDER BY m.timestamp"),
     @NamedQuery(name = MouseTrackRecordEntity.FIND_BY_APP_NAME,
         query = "SELECT m FROM MouseTrackRecordEntity m " +
-            "WHERE m.application = :application AND m.heatLevel >= :heatLevel"),
+            "WHERE m.application = :application AND m.heatLevel >= :heatLevel AND m.pathname = :pathname"),
     @NamedQuery(name = MouseTrackRecordEntity.FIND_EXISTING_COORDINATES,
         query = "SELECT m FROM MouseTrackRecordEntity m WHERE m.application = :application " +
-            "AND m.sessionId = :sessionId AND m.mouseX = :mouseX AND m.mouseY = :mouseY")
+            "AND m.sessionId = :sessionId AND m.mouseX = :mouseX AND m.mouseY = :mouseY AND m.pathname = :pathname")
 })
 public class MouseTrackRecordEntity extends SessionBaseEntity {
     
@@ -28,6 +28,9 @@ public class MouseTrackRecordEntity extends SessionBaseEntity {
     
     @Column(name = "heat_level")
     private Long heatLevel;
+    
+    @Column(name = "pathname")
+    private String pathname;
     
     public Integer getMouseX() {
         return mouseX;
@@ -55,5 +58,13 @@ public class MouseTrackRecordEntity extends SessionBaseEntity {
     
     public void incrementHeat(Long addLevels) {
         this.heatLevel += addLevels;
+    }
+    
+    public String getPathname() {
+        return pathname;
+    }
+    
+    public void setPathname(String pathname) {
+        this.pathname = pathname;
     }
 }

@@ -3,6 +3,7 @@ import {HeatmapReport, HeatRecord} from "./heatmap.report.class";
 export class HeatmapDrawUtil {
 
     public static drawHeatmap(report: HeatmapReport): void {
+        HeatmapDrawUtil.removeCurrentHeatmap();
         report.records.forEach((record: HeatRecord) => {
             const span = HeatmapDrawUtil.createHeatElement(record);
             document.body.appendChild(span);
@@ -31,6 +32,13 @@ export class HeatmapDrawUtil {
             return "red";
         }
         return "transparent";
+    }
+
+    private static removeCurrentHeatmap(): void {
+        const heatmapNodes = Array.from(document.querySelectorAll(".heatmap-node"));
+        heatmapNodes.forEach(node => {
+            document.body.removeChild(node);
+        });
     }
 
 }

@@ -40,4 +40,12 @@ export interface Configuration {
      */
     applicationName: string;
 
+    /**
+     * List of pathname patters to be replaced with generic variable.
+     * In case multiple selectors apply to pathname, the firstmost will take precedence.
+     * @example
+     * ["/my-url/{id}", "second-url/{name}/more"]
+     */
+    urlsWithParameters?: string[];
+
 }
