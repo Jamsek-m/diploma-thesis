@@ -3,6 +3,7 @@ package com.mjamsek.metrics.consumers;
 import com.kumuluz.ee.logs.LogManager;
 import com.kumuluz.ee.logs.Logger;
 import com.kumuluz.ee.streaming.common.annotations.StreamListener;
+import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
 import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
 import com.mjamsek.metrics.lib.socket.session.SocketSessionMessage;
 import com.mjamsek.metrics.lib.socket.session.SocketSessionType;
@@ -35,6 +36,9 @@ public class KafkaQueueConsumer {
                 
                 metricsService.handleMouseTracking(trackMessage);
                 LOG.info("Coordinates for session '{}' persisted", trackMessage.getSessionId());
+            } else if (message.getSessionType().equals(SocketSessionType.APP_STARTUP)) {
+                AppStartupMessage appStartupMessage = (AppStartupMessage) message;
+                metricsService.handleAppStartupTracking(appStartupMessage);
             }
         }
     }

@@ -1,11 +1,14 @@
 package com.mjamsek.metrics.services.impl;
 
+import com.mjamsek.metrics.entities.db.AppStartupEntity;
 import com.mjamsek.metrics.entities.db.MouseTrackRecordEntity;
 import com.mjamsek.metrics.lib.dto.HeatmapRequest;
 import com.mjamsek.metrics.lib.exceptions.ApplicationNotFoundException;
 import com.mjamsek.metrics.lib.heatmap.HeatRecord;
 import com.mjamsek.metrics.lib.heatmap.HeatmapReport;
+import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
 import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
+import com.mjamsek.metrics.lib.startup.AppStartupReport;
 import com.mjamsek.metrics.mappers.MetricsMapper;
 import com.mjamsek.metrics.services.MetricsService;
 import com.mjamsek.metrics.utils.UrlUtil;
@@ -59,6 +62,21 @@ public class MetricsServiceImpl implements MetricsService {
         }
     }
     
+    @Transactional
+    @Override
+    public void handleAppStartupTracking(AppStartupMessage message) {
+        if (message != null && message.getApplicationLoaded() != null && message.getNavigationStart() != null) {
+            
+            AppStartupEntity entity = new AppStartupEntity();
+            entity.setApplicationLoaded(message.getApplicationLoaded());
+            entity.setNavigationStart(message.getNavigationStart());
+            entity.setSessionId(message.getSessionId());
+            entity.setApplication(message.getApplication());
+            
+            em.persist(entity);
+        }
+    }
+    
     @Override
     public HeatmapReport generateHeatmapReport(HeatmapRequest request, Long minHeatLevel) {
         TypedQuery<MouseTrackRecordEntity> query = em.createNamedQuery(MouseTrackRecordEntity.FIND_BY_APP_NAME, MouseTrackRecordEntity.class);
@@ -77,6 +95,26 @@ public class MetricsServiceImpl implements MetricsService {
         HeatmapReport report = new HeatmapReport();
         report.setRecords(heatRecords);
         report.setRecordsCount((long) heatRecords.size());
+        return report;
+    }
+    
+    @Override
+    public AppStartupReport generateAppStartupReport(String applicationName) {
+        
+        AppStartupReport report = new AppStartupReport();
+        
+        TypedQuery<Long> minTimeQuery = em.createNamedQuery(AppStartupEntity.MIN_TIME_DIFF, Long.class);
+        minTimeQuery.setParameter("application", applicationName);
+        report.setMinLoadTime(minTimeQuery.getSingleResult());
+        
+        TypedQuery<Long> maxTimeQuery = em.createNamedQuery(AppStartupEntity.MAX_TIME_DIFF, Long.class);
+        maxTimeQuery.setParameter("application", applicationName);
+        report.setMaxLoadTime(maxTimeQuery.getSingleResult());
+        
+        TypedQuery<Double> avgTimeQuery = em.createNamedQuery(AppStartupEntity.AVG_TIME_DIFF, Double.class);
+        avgTimeQuery.setParameter("application", applicationName);
+        report.setAvgLoadTime(avgTimeQuery.getSingleResult());
+        
         return report;
     }
     

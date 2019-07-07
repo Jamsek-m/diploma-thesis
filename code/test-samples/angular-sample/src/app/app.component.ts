@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        MetricsMonitor.logApplicationStartup();
         this.router.events.subscribe(routerEvent => {
             if (routerEvent instanceof NavigationEnd) {
                 MetricsMonitor.redrawHeatmap();
