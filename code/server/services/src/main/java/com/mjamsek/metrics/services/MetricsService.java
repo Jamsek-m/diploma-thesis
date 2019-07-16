@@ -2,6 +2,7 @@ package com.mjamsek.metrics.services;
 
 import com.mjamsek.metrics.lib.dto.HeatmapRequest;
 import com.mjamsek.metrics.lib.heatmap.HeatmapReport;
+import com.mjamsek.metrics.lib.load.PageLoadReport;
 import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
 import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
 import com.mjamsek.metrics.lib.socket.session.PageLoadMessage;
@@ -18,4 +19,6 @@ public interface MetricsService {
     HeatmapReport generateHeatmapReport(HeatmapRequest request, Long minHeatLevel);
     
     AppStartupReport generateAppStartupReport(String applicationName);
+    
+    PageLoadReport generatePageLoadReport(String applicationName);
 }

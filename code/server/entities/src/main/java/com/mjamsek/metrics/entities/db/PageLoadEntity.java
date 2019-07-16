@@ -4,7 +4,22 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "page_loads")
+@NamedQueries({
+    @NamedQuery(name = PageLoadEntity.GET_BY_PAGE,
+        query = "SELECT new com.mjamsek.metrics.lib.load.SinglePageReport(" +
+            "p.pathname, " +
+            "min(p.loadEnd - p.loadStart), " +
+            "max(p.loadEnd - p.loadStart), " +
+            "avg(p.loadEnd - p.loadStart), " +
+            "count(p)" +
+        ") FROM PageLoadEntity p WHERE p.application = :application GROUP BY p.pathname"),
+    @NamedQuery(name = PageLoadEntity.AVG_PAGE_LOAD,
+        query = "SELECT avg(p.loadEnd - p.loadStart) FROM PageLoadEntity p WHERE p.application = :application")
+})
 public class PageLoadEntity extends SessionBaseEntity {
+    
+    public static final String GET_BY_PAGE = "PageLoadEntity.getByPage";
+    public static final String AVG_PAGE_LOAD = "PageLoadEntity.avgPageLoad";
     
     @Column(name = "pathname")
     private String pathname;

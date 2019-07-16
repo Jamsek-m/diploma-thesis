@@ -7,6 +7,8 @@ import com.mjamsek.metrics.lib.dto.HeatmapRequest;
 import com.mjamsek.metrics.lib.exceptions.ApplicationNotFoundException;
 import com.mjamsek.metrics.lib.heatmap.HeatRecord;
 import com.mjamsek.metrics.lib.heatmap.HeatmapReport;
+import com.mjamsek.metrics.lib.load.PageLoadReport;
+import com.mjamsek.metrics.lib.load.SinglePageReport;
 import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
 import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
 import com.mjamsek.metrics.lib.socket.session.PageLoadMessage;
@@ -132,6 +134,26 @@ public class MetricsServiceImpl implements MetricsService {
         TypedQuery<Double> avgTimeQuery = em.createNamedQuery(AppStartupEntity.AVG_TIME_DIFF, Double.class);
         avgTimeQuery.setParameter("application", applicationName);
         report.setAvgLoadTime(avgTimeQuery.getSingleResult());
+        
+        return report;
+    }
+    
+    @Override
+    public PageLoadReport generatePageLoadReport(String applicationName) {
+        
+        PageLoadReport report = new PageLoadReport();
+        
+        TypedQuery<SinglePageReport> query = em.createNamedQuery(PageLoadEntity.GET_BY_PAGE, SinglePageReport.class);
+        query.setParameter("application", applicationName);
+        
+        List<SinglePageReport> pageReports = query.getResultList();
+    
+        TypedQuery<Double> avgTimeQuery = em.createNamedQuery(PageLoadEntity.AVG_PAGE_LOAD, Double.class);
+        avgTimeQuery.setParameter("application", applicationName);
+        Double avgPageLoadTime = avgTimeQuery.getSingleResult();
+        
+        report.setPages(pageReports);
+        report.setAveragePageLoadTime(avgPageLoadTime);
         
         return report;
     }
