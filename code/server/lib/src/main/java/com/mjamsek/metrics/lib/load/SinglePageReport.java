@@ -1,5 +1,8 @@
 package com.mjamsek.metrics.lib.load;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SinglePageReport {
     
     private String pathname;
@@ -12,7 +15,10 @@ public class SinglePageReport {
     
     private Long pageHits;
     
+    private List<PagePercentileReport> percentiles;
+    
     public SinglePageReport() {
+        this.percentiles = new ArrayList<>();
     }
     
     public SinglePageReport(String pathname, Long minLoadTime, Long maxLoadTime, Double avgLoadTime, Long pageHits) {
@@ -21,6 +27,7 @@ public class SinglePageReport {
         this.maxLoadTime = maxLoadTime;
         this.avgLoadTime = avgLoadTime;
         this.pageHits = pageHits;
+        this.percentiles = new ArrayList<>();
     }
     
     public String getPathname() {
@@ -61,5 +68,13 @@ public class SinglePageReport {
     
     public void setPageHits(Long pageHits) {
         this.pageHits = pageHits;
+    }
+    
+    public List<PagePercentileReport> getPercentiles() {
+        return percentiles;
+    }
+    
+    public void setPercentiles(List<PagePercentileReport> percentiles) {
+        this.percentiles = percentiles;
     }
 }

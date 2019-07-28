@@ -33,8 +33,13 @@ public class PageLoadEndpoint {
         })
     @GET
     @Path("/{applicationName}")
-    public Response generatePageLoadReport(@PathParam("applicationName") String applicationName) {
-        PageLoadReport report = metricsService.generatePageLoadReport(applicationName);
+    public Response generatePageLoadReport(
+        @PathParam("applicationName") String applicationName,
+        @QueryParam("includeFirstPage") @DefaultValue("false") boolean includeFirstPage,
+        @QueryParam("percentiles") @DefaultValue("0.25,0.5,0.75") String percentiles
+    ) {
+        PageLoadReport report = metricsService
+            .generatePageLoadReport(applicationName, includeFirstPage, percentiles);
         return Response.ok(report).build();
     }
 

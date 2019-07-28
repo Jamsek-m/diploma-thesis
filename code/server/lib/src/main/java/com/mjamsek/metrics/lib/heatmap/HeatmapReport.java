@@ -8,6 +8,8 @@ public class HeatmapReport {
     
     private Long recordsCount;
     
+    private Integer mouseBoxSize;
+    
     public List<HeatRecord> getRecords() {
         return records;
     }
@@ -22,5 +24,13 @@ public class HeatmapReport {
     
     public void setRecordsCount(Long recordsCount) {
         this.recordsCount = recordsCount;
+    }
+    
+    public Integer getMouseBoxSize() {
+        return mouseBoxSize;
+    }
+    
+    public void setMouseBoxSize(Integer mouseBoxSize) {
+        this.mouseBoxSize = mouseBoxSize;
     }
 }

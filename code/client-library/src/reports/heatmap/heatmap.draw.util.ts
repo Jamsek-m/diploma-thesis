@@ -5,20 +5,22 @@ export class HeatmapDrawUtil {
     public static drawHeatmap(report: HeatmapReport): void {
         HeatmapDrawUtil.removeCurrentHeatmap();
         report.records.forEach((record: HeatRecord) => {
-            const span = HeatmapDrawUtil.createHeatElement(record);
+            const span = HeatmapDrawUtil.createHeatElement(record, report.mouseBoxSize);
             document.body.appendChild(span);
         });
     }
 
-    private static createHeatElement(record: HeatRecord): HTMLSpanElement {
+    private static createHeatElement(record: HeatRecord, boxSize: number): HTMLSpanElement {
         const span: HTMLSpanElement = document.createElement("SPAN") as HTMLSpanElement;
 
         const color = HeatmapDrawUtil.determineColor(record.heatLevel);
 
         span.classList.add("heatmap-node", `heatmap-node-${color}`);
 
-        span.style.top = `${record.mouseY * 10}px`;
-        span.style.left = `${record.mouseX * 10}px`;
+        span.style.top = `${record.mouseY * boxSize}px`;
+        span.style.left = `${record.mouseX * boxSize}px`;
+        span.style.width = `${boxSize}px`;
+        span.style.height = `${boxSize}px`;
 
         return span;
     }

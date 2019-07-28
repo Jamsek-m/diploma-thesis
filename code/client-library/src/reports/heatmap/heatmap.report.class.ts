@@ -6,6 +6,7 @@ export interface HeatRecord {
 }
 
 export interface HeatmapReport {
+    mouseBoxSize: number;
     recordsCount: number;
     records: HeatRecord[];
 }

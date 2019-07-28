@@ -20,5 +20,5 @@ public interface MetricsService {
     
     AppStartupReport generateAppStartupReport(String applicationName);
     
-    PageLoadReport generatePageLoadReport(String applicationName);
+    PageLoadReport generatePageLoadReport(String applicationName, boolean includeFirstPage, String percentiles);
 }

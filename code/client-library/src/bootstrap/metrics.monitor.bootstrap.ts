@@ -100,17 +100,26 @@ export class MetricsMonitor {
         }
     }
 
+    /**
+     * Logs start of page load.
+     * Call this function when you know navigation to page started.
+     * @param pageName Unique page name to identify page amongst others. Pathname is recommended.
+     */
     public static logPageLoadStart(pageName: string) {
-        if (ConfigService.getConfig().mode === "capture"){
+        if (ConfigService.getConfig().mode === "capture") {
             PageLoadTracker.trackPageLoadStart(pageName);
         }
     }
 
+    /**
+     * Logs end of page load.
+     * Call this function when you know page has loaded.
+     * @param pageName Unique page name to identify page amongst others. Pathname is recommended.
+     */
     public static logPageLoadEnd(pageName: string) {
         if (ConfigService.getConfig().mode === "capture") {
             PageLoadTracker.trackPageLoadEnd(pageName);
         }
-
     }
 
 }

@@ -11,7 +11,7 @@ if (environment.production) {
 
 MetricsMonitor.init({
     applicationName: "angular-sample",
-    mode: "heatmap",
+    mode: "capture",
     serverUrl: "http://localhost:8080",
     log: "debug",
     urlsWithParameters: [
