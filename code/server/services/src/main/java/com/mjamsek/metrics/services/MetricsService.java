@@ -18,7 +18,7 @@ public interface MetricsService {
     
     HeatmapReport generateHeatmapReport(HeatmapRequest request, Long minHeatLevel);
     
-    AppStartupReport generateAppStartupReport(String applicationName);
+    AppStartupReport generateAppStartupReport(String applicationName, String percentiles);
     
     PageLoadReport generatePageLoadReport(String applicationName, boolean includeFirstPage, String percentiles);
 }

@@ -15,7 +15,7 @@ public class SinglePageReport {
     
     private Long pageHits;
     
-    private List<PagePercentileReport> percentiles;
+    private List<SinglePercentileReport> percentiles;
     
     public SinglePageReport() {
         this.percentiles = new ArrayList<>();
@@ -70,11 +70,11 @@ public class SinglePageReport {
         this.pageHits = pageHits;
     }
     
-    public List<PagePercentileReport> getPercentiles() {
+    public List<SinglePercentileReport> getPercentiles() {
         return percentiles;
     }
     
-    public void setPercentiles(List<PagePercentileReport> percentiles) {
+    public void setPercentiles(List<SinglePercentileReport> percentiles) {
         this.percentiles = percentiles;
     }
 }

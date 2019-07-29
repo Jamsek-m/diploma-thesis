@@ -33,8 +33,11 @@ public class AppStartupEndpoint {
         })
     @GET
     @Path("/{applicationName}")
-    public Response generateHeatmap(@PathParam("applicationName") String applicationName) {
-        AppStartupReport report = metricsService.generateAppStartupReport(applicationName);
+    public Response generateHeatmap(
+        @PathParam("applicationName") String applicationName,
+        @QueryParam("percentiles") @DefaultValue("0.25,0.5,0.75") String percentiles
+    ) {
+        AppStartupReport report = metricsService.generateAppStartupReport(applicationName, percentiles);
         return Response.ok(report).build();
     }
 }

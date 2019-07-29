@@ -1,6 +1,6 @@
 package com.mjamsek.metrics.lib.load;
 
-public class PagePercentileReport {
+public class SinglePercentileReport {
     
     private Double percentile;
     

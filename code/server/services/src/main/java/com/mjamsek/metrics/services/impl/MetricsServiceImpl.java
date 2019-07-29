@@ -9,7 +9,7 @@ import com.mjamsek.metrics.lib.exceptions.ApplicationNotFoundException;
 import com.mjamsek.metrics.lib.heatmap.HeatRecord;
 import com.mjamsek.metrics.lib.heatmap.HeatmapReport;
 import com.mjamsek.metrics.lib.load.PageLoadReport;
-import com.mjamsek.metrics.lib.load.PagePercentileReport;
+import com.mjamsek.metrics.lib.load.SinglePercentileReport;
 import com.mjamsek.metrics.lib.load.SinglePageReport;
 import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
 import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
@@ -97,7 +97,7 @@ public class MetricsServiceImpl implements MetricsService {
             entity.setLoadEnd(message.getLoadEnd());
             entity.setLoadStart(message.getLoadStart());
             entity.setFirstPage(message.getFirstPage());
-    
+            
             em.persist(entity);
         }
     }
@@ -125,21 +125,20 @@ public class MetricsServiceImpl implements MetricsService {
     }
     
     @Override
-    public AppStartupReport generateAppStartupReport(String applicationName) {
+    public AppStartupReport generateAppStartupReport(String applicationName, String percentileString) {
+        List<String> percentiles = this.parsePercentileString(percentileString);
         
         AppStartupReport report = new AppStartupReport();
         
-        TypedQuery<Long> minTimeQuery = em.createNamedQuery(AppStartupEntity.MIN_TIME_DIFF, Long.class);
-        minTimeQuery.setParameter("application", applicationName);
-        report.setMinLoadTime(minTimeQuery.getSingleResult());
+        Query query = em.createNamedQuery(AppStartupEntity.TIME_DIFF_STATISTICS);
+        query.setParameter("application", applicationName);
+        Object[] result = (Object[]) query.getSingleResult();
         
-        TypedQuery<Long> maxTimeQuery = em.createNamedQuery(AppStartupEntity.MAX_TIME_DIFF, Long.class);
-        maxTimeQuery.setParameter("application", applicationName);
-        report.setMaxLoadTime(maxTimeQuery.getSingleResult());
+        report.setMaxLoadTime((Long) result[0]);
+        report.setMinLoadTime((Long) result[1]);
+        report.setAvgLoadTime((Double) result[2]);
         
-        TypedQuery<Double> avgTimeQuery = em.createNamedQuery(AppStartupEntity.AVG_TIME_DIFF, Double.class);
-        avgTimeQuery.setParameter("application", applicationName);
-        report.setAvgLoadTime(avgTimeQuery.getSingleResult());
+        this.calculatePercentilesForAppLoad(applicationName, report, percentiles);
         
         return report;
     }
@@ -158,7 +157,7 @@ public class MetricsServiceImpl implements MetricsService {
         query.setParameter("application", applicationName);
         
         List<SinglePageReport> pageReports = query.getResultList();
-    
+        
         String avgPageReportQueryName = includeFirstPage ? PageLoadEntity.AVG_PAGE_LOAD_WITH_FIRST : PageLoadEntity.AVG_PAGE_LOAD;
         TypedQuery<Double> avgTimeQuery = em.createNamedQuery(avgPageReportQueryName, Double.class);
         avgTimeQuery.setParameter("application", applicationName);
@@ -167,49 +166,75 @@ public class MetricsServiceImpl implements MetricsService {
         report.setPages(pageReports);
         report.setAveragePageLoadTime(avgPageLoadTime);
         
-        this.calculatePercentiles(applicationName, report, includeFirstPage, percentiles);
+        this.calculatePercentilesForPageLoad(applicationName, report, includeFirstPage, percentiles);
         
         return report;
     }
     
-    private void calculatePercentiles(String applicationName,
-                                      PageLoadReport report,
-                                      boolean includeFirstPage,
-                                      List<String> percentiles) {
+    private void calculatePercentilesForAppLoad(String applicationName,
+                                                AppStartupReport report,
+                                                List<String> percentiles) {
+        for (String percentile : percentiles) {
+            try {
+                Double percentileFraction = Double.parseDouble(percentile);
+                if (percentileFraction < 0 || percentileFraction > 1) {
+                    throw new NumberFormatException("Percentile must be decimal value between 0 and 1.");
+                }
+                
+                Query query = em.createNamedQuery(AppStartupEntity.CALC_PERCENTILES);
+                query.setParameter("application", applicationName);
+                query.setParameter("percentile", percentileFraction);
+                Double percentileValue = (Double) query.getSingleResult();
+    
+                SinglePercentileReport percentileReport = new SinglePercentileReport();
+                percentileReport.setPercentile(percentileFraction);
+                percentileReport.setValue(percentileValue);
+                
+                report.getPercentiles().add(percentileReport);
+            } catch (NumberFormatException e) {
+                // ignore misformatted percentiles
+            }
+        }
+    }
+    
+    private void calculatePercentilesForPageLoad(String applicationName,
+                                                 PageLoadReport report,
+                                                 boolean includeFirstPage,
+                                                 List<String> percentiles) {
         // handle each user-specified percentile
         for (String percentile : percentiles) {
-        
+            
             try {
                 Double percentileFraction = Double.parseDouble(percentile);
                 
                 if (percentileFraction < 0 || percentileFraction > 1) {
                     throw new NumberFormatException("Percentile must be decimal value between 0 and 1.");
                 }
-            
+                
                 // get values for all pages for current percentile
                 String queryName = includeFirstPage ? PageLoadEntity.CALC_PERCENTILE_WITH_FIRST : PageLoadEntity.CALC_PERCENTILE;
                 Query query = em.createNamedQuery(queryName);
                 query.setParameter(1, applicationName);
                 query.setParameter(2, percentileFraction);
                 List<Object[]> percentileResults = query.getResultList();
-            
+                
                 // merge results with page report
-            
+                
                 // for each row (page)
                 for (Object[] pagePercentiles : percentileResults) {
                     Double percentileValue = (Double) pagePercentiles[0];
                     String pathname = (String) pagePercentiles[1];
-                
+                    
                     Optional<SinglePageReport> pageReport = report.getPages()
                         .stream()
                         .filter(r -> r.getPathname().equals(pathname))
                         .findFirst();
                     if (pageReport.isPresent()) {
-                    
-                        PagePercentileReport percentileReport = new PagePercentileReport();
+                        
+                        SinglePercentileReport percentileReport = new SinglePercentileReport();
                         percentileReport.setPercentile(percentileFraction);
                         percentileReport.setValue(percentileValue);
-                    
+                        
                         pageReport.get().getPercentiles().add(percentileReport);
                     }
                 }
