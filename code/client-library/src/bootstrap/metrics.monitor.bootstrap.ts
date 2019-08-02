@@ -1,4 +1,4 @@
-import {ConfigService, Configuration} from "../configuration";
+import {ConfigService, Configuration, MonitorState} from "../configuration";
 import {Logger} from "../log";
 import {registerTrackers} from "../metrics";
 import {AppStartupTracker} from "../metrics/app.startup.tracker";
@@ -6,6 +6,7 @@ import {PageLoadTracker} from "../metrics/page.load.tracker";
 import {HeatmapService} from "../reports";
 import {ServerHealthUtil} from "../server";
 import {SocketService} from "../socket";
+import {FeatureDetector} from "./feature.detector";
 
 export class MetricsMonitor {
 
@@ -19,6 +20,8 @@ export class MetricsMonitor {
 
         Logger.initialize(ConfigService.getConfig().log);
         Logger.info("Initializing Metrics Monitor...");
+
+        MonitorState.getMonitorState().setBrowserFeatures(FeatureDetector.detectFeatures());
 
         return new Promise<string>((resolve, reject) => {
 

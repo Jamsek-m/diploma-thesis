@@ -42,6 +42,8 @@ public class SocketMessageMapper {
                 return JacksonMapper.toEntity(rawMessage, AppStartupMessage.class);
             case PAGE_LOAD:
                 return JacksonMapper.toEntity(rawMessage, PageLoadMessage.class);
+            case RESOURCE_LOAD:
+                return JacksonMapper.toEntity(rawMessage, ResourceLoadMessage.class);
             default:
                 return null;
         }

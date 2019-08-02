@@ -7,6 +7,7 @@ export enum SocketSessionType {
     PING = "PING",
     APP_STARTUP = "APP_STARTUP",
     PAGE_LOAD = "PAGE_LOAD",
+    RESOURCE_LOAD = "RESOURCE_LOAD",
 }
 
 export class SessionSocketMessage extends SocketMessage {
@@ -60,5 +61,25 @@ export class PageLoadMessage extends SessionSocketMessage {
     constructor() {
         super();
         this.sessionType = SocketSessionType.PAGE_LOAD;
+    }
+}
+
+export class ResourceLoadMessage extends SessionSocketMessage {
+    public resourceType: string;
+    public decodedBodySize: number;
+    public encodedBodySize: number;
+    public transferSize: number;
+    public redirectTime: number;
+    public DNSTime: number;
+    public TCPHandleTime: number;
+    public secureConnectionTime: number;
+    public responseTime: number;
+    public requestStartTime: number;
+    public responseEndTime: number;
+    public name: string;
+
+    constructor() {
+        super();
+        this.sessionType = SocketSessionType.RESOURCE_LOAD;
     }
 }

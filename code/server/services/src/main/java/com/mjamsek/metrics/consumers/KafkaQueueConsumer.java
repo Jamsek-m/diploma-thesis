@@ -39,6 +39,9 @@ public class KafkaQueueConsumer {
             } else if (message.getSessionType().equals(SocketSessionType.PAGE_LOAD)) {
                 PageLoadMessage pageLoadMessage = (PageLoadMessage) message;
                 metricsService.handlePageLoadTracking(pageLoadMessage);
+            } else if (message.getSessionType().equals(SocketSessionType.RESOURCE_LOAD)) {
+                ResourceLoadMessage resourceLoadMessage = (ResourceLoadMessage) message;
+                metricsService.handleResourceLoadTracking(resourceLoadMessage);
             }
         }
     }

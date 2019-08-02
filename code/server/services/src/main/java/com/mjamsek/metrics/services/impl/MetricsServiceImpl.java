@@ -4,16 +4,16 @@ import com.mjamsek.metrics.config.MetricConfiguration;
 import com.mjamsek.metrics.entities.db.AppStartupEntity;
 import com.mjamsek.metrics.entities.db.MouseTrackRecordEntity;
 import com.mjamsek.metrics.entities.db.PageLoadEntity;
+import com.mjamsek.metrics.entities.db.ResourceLoadEntity;
 import com.mjamsek.metrics.lib.dto.HeatmapRequest;
 import com.mjamsek.metrics.lib.exceptions.ApplicationNotFoundException;
 import com.mjamsek.metrics.lib.heatmap.HeatRecord;
 import com.mjamsek.metrics.lib.heatmap.HeatmapReport;
-import com.mjamsek.metrics.lib.load.PageLoadReport;
-import com.mjamsek.metrics.lib.load.SinglePercentileReport;
-import com.mjamsek.metrics.lib.load.SinglePageReport;
+import com.mjamsek.metrics.lib.load.*;
 import com.mjamsek.metrics.lib.socket.session.AppStartupMessage;
 import com.mjamsek.metrics.lib.socket.session.MouseTrackMessage;
 import com.mjamsek.metrics.lib.socket.session.PageLoadMessage;
+import com.mjamsek.metrics.lib.socket.session.ResourceLoadMessage;
 import com.mjamsek.metrics.lib.startup.AppStartupReport;
 import com.mjamsek.metrics.mappers.MetricsMapper;
 import com.mjamsek.metrics.services.MetricsService;
@@ -102,6 +102,30 @@ public class MetricsServiceImpl implements MetricsService {
         }
     }
     
+    @Transactional
+    @Override
+    public void handleResourceLoadTracking(ResourceLoadMessage message) {
+        if (message != null) {
+            ResourceLoadEntity entity = new ResourceLoadEntity();
+            entity.setName(message.getName());
+            entity.setResourceType(message.getResourceType());
+            entity.setDecodedBodySize(message.getDecodedBodySize());
+            entity.setEncodedBodySize(message.getEncodedBodySize());
+            entity.setTransferSize(message.getTransferSize());
+            entity.setRedirectTime(message.getRedirectTime());
+            entity.setDNSTime(message.getDNSTime());
+            entity.setTCPHandleTime(message.getTCPHandleTime());
+            entity.setSecureConnectionTime(message.getSecureConnectionTime());
+            entity.setResponseTime(message.getResponseTime());
+            entity.setRequestStartTime(message.getRequestStartTime());
+            entity.setResponseEndTime(message.getResponseEndTime());
+            entity.setApplication(message.getApplication());
+            entity.setSessionId(message.getSessionId());
+            
+            em.persist(entity);
+        }
+    }
+    
     @Override
     public HeatmapReport generateHeatmapReport(HeatmapRequest request, Long minHeatLevel) {
         TypedQuery<MouseTrackRecordEntity> query = em.createNamedQuery(MouseTrackRecordEntity.FIND_BY_APP_NAME, MouseTrackRecordEntity.class);
@@ -168,6 +192,22 @@ public class MetricsServiceImpl implements MetricsService {
         
         this.calculatePercentilesForPageLoad(applicationName, report, includeFirstPage, percentiles);
         
+        return report;
+    }
+    
+    @Override
+    public ResourceLoadReport generateResourceLoadReport(String applicationName, boolean ignoreCached) {
+        String queryName = ignoreCached ? ResourceLoadEntity.CALC_RESOURCE_LOAD_IGNORE_CACHE : ResourceLoadEntity.CALC_RESOURCE_LOAD;
+        TypedQuery<SingleResourceReport> query = em.createNamedQuery(queryName, SingleResourceReport.class);
+        query.setParameter("application", applicationName);
+        List<SingleResourceReport> resources = query.getResultList();
+    
+        if (resources.size() == 0) {
+            throw new ApplicationNotFoundException();
+        }
+        
+        ResourceLoadReport report = new ResourceLoadReport();
+        report.setResources(resources);
         return report;
     }
     

@@ -1,3 +1,5 @@
+import {BrowserFeatures} from "../bootstrap/feature.detector";
+
 export class MonitorState {
 
     private static stateInstance: MonitorState = null;
@@ -13,6 +15,7 @@ export class MonitorState {
     public socketConnected: boolean;
     public startingApplication: boolean;
     public socketSessionId: string;
+    public browserFeatures: BrowserFeatures;
 
     constructor() {
         this.serverConnected = false;
@@ -27,5 +30,9 @@ export class MonitorState {
 
     public setStartedApplication(): void {
         this.startingApplication = false;
+    }
+
+    public setBrowserFeatures(features: BrowserFeatures): void {
+        this.browserFeatures = features;
     }
 }
