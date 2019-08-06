@@ -1,2 +1,9 @@
-diplomska-vzorec.zip
-dist/
+*.zip
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.gz
+*.toc
