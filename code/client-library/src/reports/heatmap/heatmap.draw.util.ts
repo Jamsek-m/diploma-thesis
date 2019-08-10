@@ -26,11 +26,11 @@ export class HeatmapDrawUtil {
     }
 
     private static determineColor(heatLevel: number): string {
-        if (heatLevel > 0 && heatLevel <= 5) {
+        if (heatLevel > 5 && heatLevel <= 10) {
             return "green";
-        } else if (heatLevel > 5 && heatLevel <= 10) {
+        } else if (heatLevel > 10 && heatLevel <= 15) {
             return "yellow";
-        } else if (heatLevel > 10) {
+        } else if (heatLevel > 15) {
             return "red";
         }
         return "transparent";
