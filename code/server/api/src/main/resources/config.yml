@@ -12,7 +12,7 @@ kumuluzee:
   cors-filter:
     servlet:
       allow-origin: "*"
-      supported-methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD"
+      supported-methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD"
       exposed-headers: "X-Total-Count"
   logs:
     loggers:
@@ -27,7 +27,7 @@ kumuluzee:
         jndi-name: jdbc/mainDB
   datasources:
     - jndi-name: jdbc/mainDB
-      connection-url: jdbc:postgresql://localhost:5432/metrics-monitor
+      connection-url: jdbc:postgresql://192.168.1.22:5432/metrics-monitor
       username: postgres
       password: postgres
       pool:

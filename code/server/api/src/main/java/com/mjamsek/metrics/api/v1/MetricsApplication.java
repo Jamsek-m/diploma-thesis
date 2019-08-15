@@ -14,6 +14,6 @@ import javax.ws.rs.core.Application;
     info = @Info(title = "Metrics Monitor Server", version = "0.0.1", contact = @Contact()),
     servers = @Server(url = "http://localhost:8080/v1")
 )
-@CrossOrigin(exposedHeaders = "X-Total-Count")
+// @CrossOrigin(exposedHeaders = "X-Total-Count")
 public class MetricsApplication extends Application {
 }
