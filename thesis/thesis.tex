@@ -445,6 +445,14 @@ Pri prehodu iz klasičnih strani na SPA, pa se ne spremenijo samo metrike, ampak
 
 Izvajanje te kode pa se tukaj ne konča, saj velika večina teh ogrodij podpira tudi dvostransko vezavo podatkov (ang. two-way data binding). Torej, ko nek podatek v kodi zamenja vrednost (kot posledica rezultata AJAX klica, ali pa uporabniškega vnosa), se ta sprememba takoj pozna na vmesniku. Za dosego tega, je potrebno, da v ozadju koda neprestano posluša za spremembe ter da prepozna, kdaj je potrebno vmesnik na novo izrisati. S tem koda v naši aplikaciji ni več pasivna, ampak deluje aktivno. To odpre pot možnim puščanjem pomnilnika ali pa upočasnitvam aplikacije.
 
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{AngularJS_dvosmerno_povezovanje.png}
+	\end{center}
+	\caption{Dvosmerno povezovanje pogleda in modela, vir: \cite{sp_skripta}}
+	\label{img:angularjs_two_way_databind}
+\end{figure}
+
 Poveča se potreba po spremljanju metrik, saj imamo v bistvu tudi na odjemalcu precej kompleksen del naše aplikacije.
 
 Ker je področje spremljanja metrik za SPA še precej novo, nimamo še poenotene terminologije za te metrike. Razne implementacije \cite{linkedin_rum}\cite{mezzurite_website} uporabljajo svojo terminologijo, vendar pa koncepti ostajajo isti.
@@ -452,6 +460,14 @@ Ker je področje spremljanja metrik za SPA še precej novo, nimamo še poenotene
 Pri vseh implementacijah je moč najti zagonski čas aplikacije (ang. application load time, oziroma krajše ALT). To je metrika, ki nam pove, koliko časa potrebuje naša aplikacija, da prenese zahtevane gradnike, naloži kodo ogrodja, ki ga uporabljamo in inicializira aplikacijo. Gre za precej pomembna metrika, saj če je zagonski čas predolg, lahko izgubimo kakšnega potencialnega uporabnika. Občutek predolgega nalaganja se velikokrat zmanjša tako, da najprej prikažemo stran, ki uporabniku sporoči, da se stran nalaga – v večini primerov je to krog, ki se vrti, ali pa kakšna črta, ki se obarva glede na napredek (pomislimo na Gmail odjemalca, ki nas obvesti, da se aplikacija nalaga, nato pa prikaže vsebino) – ko smo pa prepričani, da je aplikacija naložena, to stran skrijemo in prikažemo dejansko vsebino. Eden izmed načinov je tudi ta, da se poslužimo delnega strežniškega upodabljanja (ang. server-side rendering), tj. da stran delno izrišemo že na strežniku.
 
 Naslednja omembe vredna metrika se uporablja že pri klasičnih straneh. To je čas nalaganja strani (ang. page load time, oziroma krajše PLT). Pri klasičnih aplikacijah je to najpogostejša metrika, ki nas zanima, saj nam pove, kako hitro uporabnik vidi vsebino te strani. Toda, ko skušamo to metriko vpeljati tudi v SPA, pridemo hitro do nekaj vprašanj, s katerimi se nismo srečali pri klasičnih straneh. Prvo vprašanje, ki se nam zastavi je, kdaj se stran sploh smatra za naloženo? Ali je to, ko se naloži DOM? Ali, ko se nam izriše vmesnik? Mogoče takrat, ko pridobimo podatke?
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{Razlicni_nacini_obdelave_zahtev.png}
+	\end{center}
+	\caption{Različno delovanje SPA in klasičnih spletnih strani, vir: \cite{sp_skripta}}
+	\label{img:diff_multipage_spa}
+\end{figure}
 
 Pravega odgovora ni, saj to povsem zavisi kako smo stran zasnovali. Tudi podatke, ki jih pridobivamo dinamično z AJAX zahtevki, ne obravnavamo z enako prioriteto. Podatki, ki gradijo osnovni pogled, na primer tabelo, so najverjetneje sestavni del strani in morajo biti zajeti v času nalaganja strani, medtem ko podatek, ki nam prikazuje število neprebranih sporočil v orodni vrstici ni bistven in ga lahko iz te metrike izpustimo. V tem primeru mora razvijalec sam presoditi, kdaj je stran uporabna in se smatra kot naložena.
 
