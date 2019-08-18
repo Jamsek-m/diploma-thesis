@@ -22,6 +22,8 @@
 \usepackage{color}       % dodal Solina
 \usepackage{soul}       % dodal Solina
 
+\usepackage[section]{placeins}
+
 \usepackage{listings}
 \lstset{basicstyle=\ttfamily}
 \renewcommand{\lstlistingname}{Izsek izvorne kode}% Listing -> Algorithm
@@ -280,7 +282,7 @@ TODO
   {\bf HTTP}      & Hypertext transfer protocol  & Protokol za prenos hiperteksta \\
   {\bf JSON} & Javascript object notation & Notacija Javascript objektov \\
   {\bf API}   & Application programming interface   & Programski vmesnik \\
-  {\bf SPA}   & Single page application   & Aplikacija na eni strani \\
+  {\bf SPA}   & Single page application   & Enostranska spletna aplikacija \\
   {\bf RUM}   & Real user monitoring  & Spremljanje uporabnikov v realnem času \\
   {\bf HTML}   & Hypertext markup language  & Označevalni jezik za oblikovanje večpredstavnostnih dokumentov \\
   {\bf CSS}   & Cascading style sheets  & Prekrivni slogi \\
@@ -338,10 +340,9 @@ TODO
 %\noindent\textbf{Povzetek:} 
 \noindent Spremljanje metrik dandanes postaja vedno bolj pomembna aktivnost. S spremljanjem raznih metrik  dobimo povratne informacije o kvaliteti aplikacije, intuitivnosti njenega uporabniškega vmesnika in o njenih uporabnikih, ki jih lahko uporabimo za izboljšanje naše aplikacije in storitve.
 
-Eden izmed načinov spremljanja metrik je spremljanje uporabnikov v realnem času. Meritve tako opravljamo na realnih uporabnikih in ne več na manjši množici testnih uporabnikov. Čeprav se metrike lahko spremlja pri vseh programih, se v nalogi osredotočim na spletne aplikacije, kjer so se z  vpeljavo aplikacij na eni strani (ang. single page applications) spremenile metrike, ki jih zajemamo in način kako jih zajemamo.
+V diplomski nalogi se ukvarjam s problematiko spremljanja metrik. Pri tem se osredotočim na pasivno spremljanje metrik, ki spremljanje izvaja na celotni množici uporabnikov aplikacije. Podrobneje raziščem eno izmed tehnologij pasivnega spremljanja – spremljanje metrik v realnem času in uporabo te tehnologije v enostranskih spletnih aplikacijah. Danes zelo popularne enostranske spletne aplikacije, (ang. single page application) pa s svojim drugačnim načinom delovanja od klasičnih spletnih strani, zahtevajo spremembe tudi pri zbiranju metrik.
 
-Cilj diplomske naloge je razviti generično rešitev za spremljanje metrik spletnih aplikacij, ki deluje neodvisno od uporabljenega ogrodja.
-
+Rezultat diplomske naloge je generična platforma za spremljanje metrik, prilagojena za enostranske spletne aplikacije. Platforma nam omogoča zajemanje metrik, pomembnih za enostranske spletne aplikacije, v realnem času in neodvisno od uporabljenega ogrodja za izdelavo takih aplikacij.
 
 \bigskip
 
@@ -364,10 +365,10 @@ Cilj diplomske naloge je razviti generično rešitev za spremljanje metrik splet
 %\noindent\textbf{Abstract:} 
 \noindent
 Nowadays metrics monitoring is becoming increasingly important activity. With monitoring of various metrics, we get feedback about application quality, how intuitive its user interface is and about its users, which we can use to improve our application and service.
- 
-One way to monitor metrics is by monitoring users in real time. Monitoring is done on real users and not anymore on smaller test group of users. Even though we can monitor metrics in all programs in my thesis I focus on web applications. With introduction of single page applications monitored metrics have changed together with the way we are monitoring them.
 
-Goal of diploma thesis was to design generic solution for monitoring metrics of web applications, which works independently of used framework.
+In diploma thesis I deal with topic of monitoring metrics. I focus on passive monitoring, which is monitoring whole set of application users. Further, I research one of the technologies of passive monitoring – real user monitoring and its usage in single page applications. Today very popular single page applications, with their different way of working than classical web pages, demand some changes in the way we collect metrics.
+
+Result of diploma thesis is generic platform for metrics monitoring, adjusted for single page applications. Platform enables monitoring of metrics, important for single page applications in real time and independently of used framework for development of such applications.
 
 
 \bigskip
@@ -386,29 +387,31 @@ Goal of diploma thesis was to design generic solution for monitoring metrics of 
 
 Dandanes je digitalna ekonomija že zelo razširjen pojav. Velik del podjetij vsaj delno posluje digitalno, za marsikatero pa to predstavlja tudi glavni poslovni model. Ker je eden od glavnih gradnikov digitalne ekonomije tudi e-poslovna infrastruktura \cite{digital_econ}, morajo podjetja nameniti temu tudi zadosten del pozornosti.
 
-Predvsem pri poslovnih modelih, ki se vrtijo okoli spletne strani – to so razne spletne trgovine in ostale storitve, ki so na voljo skozi spletne vmesnike – je uporabniška izkušnja eden izmed najpomembnejših faktorjev, s katerim uporabnika pritegnemo k uporabi naše storitve in ga tam tudi zadržimo. Uporabnik, ki ima na voljo dve razmeroma podobni storitvi, bo izbral  tisto, ki ima preglednejši uporabniški vmesnik in se hitreje odziva na uporabnikove zahteve. 
+Predvsem pri poslovnih modelih, ki se vrtijo okoli spletne strani – to so razne spletne trgovine in ostale storitve, ki so na voljo skozi spletne vmesnike – je uporabniška izkušnja eden izmed najpomembnejših faktorjev, s katerim uporabnika pritegnemo k uporabi naše storitve in ga tam tudi zadržimo. Uporabnik, ki ima na voljo dve razmeroma podobni storitvi, bo izbral tisto, ki ima preglednejši uporabniški vmesnik in se hitreje odziva na uporabnikove zahteve. 
 
-Ker pa se uporabnikova pričakovanja in poslovne zahteve neprestano večajo, so se z njimi pričele naraščati tudi velikosti spletnih strani. Razvijalci so tako spoznali omejitve trenutnih spletnih tehnologij, saj se pojavlja veliko ponavljajoče kode, datoteke so vedno večje, posledično težje za vzdrževanje in veliko je prepletanja med strežniško in odjemalčevo kodo.
+Pri ugotavljanju primernosti naše aplikacije in njene odzivnosti, nam pomagajo metrike. S spremljanjem ustreznih metrik, lahko dobimo povratne informacije, katere uporabimo za izboljšanje naše aplikacije. Pozoren pa ni treba biti samo na ustreznost zajetih metrik, ampak tudi na ustrezno zajemanje teh metrik. Delovanje danes popularnih enostranskih spletnih aplikacij je precej drugačno od delovanja klasičnih strani.
 
-Eden izmed odgovorov na to problematiko se je pojavil v obliki t.i. spletnih aplikacij na eni strani (ang. single page application, oziroma krajše SPA) \cite{spa_blakit} \cite{spa_vs_multi} \cite{spa_presentation}. To so aplikacije, kjer se uporabniški vmesnik zgradi šele, ko je stran naložena, torej najprej se prenesejo vsi gradniki (Javascript, HTML, CSS datoteke), nakar pa se aplikacija zažene in prikaže našo vsebino. Struktura teh aplikacij nam omogoča lažjo organizacijo kode, saj podpirajo združevanje podvojene kode v ti. komponente, ki jih lahko nato uporabljamo skozi celotno aplikacijo. Te lahko v celoti implementiramo sami, najpogosteje pa se za to uporablja eno od ogrodij, od katerih so trenutno najpopularnejše Angular \cite{angular_website}, React \cite{react_website} in pa Vue.js \cite{vue_website}.
+Zaradi razlik v delovanju takih aplikacij, so metrike, ki smo jih spremljali pri klasičnih, neprimerne. Primer ene take metrike je čas nalaganja strani (ang. page load time oziroma krajše PLT). Ker moramo pri SPA ločiti \sn{trdo} od \sn{mehke} navigacije (saj \sn{trda} vsebuje tudi zagonski čas aplikacije, ki je še ena od metrik, ki ni prisotna pri klasičnih straneh), moramo tukaj postopati drugače \cite{hard_vs_soft_navigation}.
 
-Seveda pa njihov doprinos ni samo na strani razvijalcev, ampak tudi uporabnikov. Že samo ime -- aplikacija na eni strani -- nam pove, da taka aplikacija ne uporablja običajne navigacije.
+Cilj diplomske naloge je tako raziskati kako zbiranje metrik v enostranskih aplikacijah poteka, kakšne implementacije obstajajo in zasnovati platformo, ki bo ustrezno spremljala metrike, primerne za enostranske spletne aplikacije. Primerne metrike so tiste, ki nam dajo take informacije o delovanju aplikacije, da lahko iz njih sklepamo ali naša aplikacija potrebuje izboljšave in kateri deli aplikacije so kritični. Nekaj takih metrik uporabljamo že pri klasičnih spletnih straneh in jih je zato smiselno uporabiti tudi tukaj, medtem, ko je nekatere metrike potrebno definirati, saj jih poznamo samo v enostranskih spletnih aplikacijah.
 
-Pri klasičnem pristopu smo imeli za vsako stran svoj HTML dokument, ki se je prenesel, ko smo zahtevali to stran. Nasprotno, imamo pri SPA samo en HTML dokument. Vsa nadaljnja navigacija je \sn{mehka}, ker se ne prenese nov HTML dokument, ampak se nova stran izriše s pomočjo Javascripta.
+Poskrbeti je pa potrebno še za ustrezno zajemanje teh metrik. To je zato, ker spremljanje metrike še ne pomeni njene ustreznosti. Članek \cite{se_metrics} to ilustrira s spremljanjem metrike ocene študenta. Za oceno tako izbere oddaljenost študenta od table, kjer bližji dobijo višjo oceno, kot tisti ki sedijo zadaj. Avtor s tem poudari, da čeprav spremljamo primerno metriko (oceno študenta), pa zajemanje te metrike ni ustrezno.
 
-Tako, sicer za ceno počasnejšega prvega nalaganja, pospešimo vse nadaljnje zahtevke in damo uporabniku občutek, da je stran bolj odzivna. Nadalje, kjer smo prej podatke izpisali na stran s pomočjo strežniškega upodabljanja (ang. server-side rendering), sedaj te podatke pridobimo z AJAX zahtevki. Razlika za uporabnika je v tem, da lahko vidi že stran, čeprav vsebine še ni. Tako spet damo občutek, da je spletna stran hitrejša, oziroma daje občutek, da se v ozadju nekaj izvaja.
+Metrike, ki pa so primerne in ustrezno zajete, razvijalcem omogočajo prepoznati \sn{ozko grlo} njihovih aplikacij, da jih lahko odpravijo ter tako omogočijo svojim uporabnikom boljšo izkušnjo.
 
-Zaradi razlik v delovanju takih aplikacij od klasičnih, so metrike, ki smo jih spremljali pri klasičnih, neprimerne. Primer ene take metrike je čas nalaganja strani (ang. page load time oziroma krajše PLT). Ker moramo pri SPA ločiti \sn{trdo} od \sn{mehke} navigacije (saj \sn{trda} vsebuje tudi zagonski čas aplikacije, ki je še ena od metrik, ki ni prisotna pri klasičnih straneh), moramo tukaj postopati drugače \cite{hard_vs_soft_navigation}.
-
-Prav zaradi tega, sem si za cilj diplomske naloge zadal zasnovati platformo, ki spremlja metrike, primerne za SPA aplikacije.
-
-Te metrike, razvijalcem omogočajo prepoznati \sn{ozko grlo} njihovih aplikacij, da jih lahko odpravijo ter tako omogočijo svojim uporabnikom boljšo izkušnjo.
-
-
+V naslednjem poglavju opišem kaj sploh so metrike in kaj njihovo spremljanje. Spremljanje razdelim na dva načina in ju primerjam. Predstavim tudi orodja, ki to problematiko že rešujejo na tak ali drugačen način. V tretjem poglavju predstavim razlike v delovanju klasičnih spletnih strani in enostranskih spletnih aplikacij. Nadalje, predstavim pomembnost metrik v enostranskih spletnih aplikacijah in zakaj v takih aplikacijah pomembnejše kot v klasičnih. Nato se osredotočim na enostranske aplikacije in novosti, ki jih prinašajo in jih moramo upoštevati pri zajemanju metrik. Pri tem izpostavim razliko v delovanju navigacije. Dotaknem se še ene posebnosti enostranskih aplikacij -- komponent in zakaj metrik, ki spremljajo to posebnost ne smemo posplošiti. V četrtem poglavju predstavim razne metrike, ki jih je možno zajeti. Nato predstavim še metrike, ki sem jih zajel v moji rešitvi. Za vsako zajeto metriko prikažem tudi poročilo, ki ga mora rešitev generira ob zadostnem številu podatkov. V petem poglavju se osredotočim na zasnovo in implementacijo moje rešitve. Predstavim načrt platforme in razložim njeno delovanje. Nato opišem orodja, ki sem jih uporabil v implementaciji rešitve. Zaključim z demonstracijo uporabe implementirane storitve, kjer prikažem kako zajamemo vsako od spremljanih metrik in s povzetkom, kjer povzamem funkcionalnosti, ki jih moja rešitev implementira. Diplomsko delo zaključim s sklepnimi ugotovitvami in predlogi za nadaljne delo.
 
 \chapter{Spremljanje uporabniških metrik v realnem času}
 \label{ch0}
-Kaj spremljanje metrik sploh pomeni? Spremljanje metrik je proces, pri katerem zbiramo razne podatke o naši aplikaciji (ta ni nujno ravno spletna), kateri nam dajo povratno informacijo o kakovosti naše aplikacije. Te metrike lahko spremljajo kakovost uporabniškega vmesnika, odzivnost aplikacije,  kvaliteto povezave naših uporabnikov, ali pa še kaj drugega. Nekega splošnega recepta za seznam metrik, ki jih moramo zajemati, ni. Spremljamo pač tiste, ki so za nas najpomembnejše.
+Kaj spremljanje metrik sploh pomeni? Spremljanje metrik je proces, kjer z uporabo empiričnih in objektivnih metod dodelimo lastnosti nekemu objektu ali dogodku tako, da jih lahko kasneje opišemo. Formalno, temu procesu pravimo preslikava med empiričnim in formalnim svetom \cite{se_metrics}.
+
+Pri tem je potrebno biti pozoren, da so lastnosti, ki jih dodelimo opazovanemu objektu oziroma dogodku, primerne. Lastnosti morajo biti dodeljene upoštevajoč jasno definirana pravila \cite{software_metrics}. V nasprotnem primeru, lahko dodeljene lastnosti ne predstavljajo vrednosti, ki smo jo hoteli izmeriti \cite{se_metrics}.
+
+Metrike programske opreme, so tako vse aktivnosti, ki v neki kapaciteti merijo stroške in delo zasnove, zbiranje podatkov, merjenje kvalitete zasnovanega modela, zanesljivost modela, kompleksnost modela, varnost modela, zrelost funkcionalnosti in ocenjevanje uporabljenih metod in orodij \cite{software_metrics}. Čeprav so naštete lastnosti zelo raznolike, pa do merjenja teh lastnosti pristopamo enako.
+
+V nadaljevanju se osredotočim na spremljanje zrelosti funkcionalnosti. Metrike, ki spadajo v to skupino lahko spremljajo kakovost uporabniškega vmesnika, odzivnost aplikacije, kvaliteto povezave naših uporabnikov, ali pa še kaj drugega. Nekega splošnega recepta za seznam metrik, ki jih moramo zajemati, ni. Spremljamo pač tiste, ki so za nas najpomembnejše.
+
+Metrike seveda niso omejene samo na spletne aplikacije. Spremljamo jih lahko v raznih domorodnih aplikacijah, krmilnikih ali pa strežniških aplikacijah.
 
 Dandanes imamo veliko načinov za spremljanje metrik, vsi pa se v grobem delijo na dve kategoriji: sintetično in pasivno spremljanje.
 
@@ -428,22 +431,24 @@ Pasivno spremljanje je spremljanje dejanskega prometa, ki ga imamo v naši aplik
 
 Ena od tehnologij pasivnega spremljanja je ti. spremljanje uporabniških metrik v realnem času (ang. Real User Monitoring, oziroma krajše RUM). S temi uporabniškimi metrikami, lahko nato zaznamo neželene pojave kot so pogoste napake ali upočasnitve. Zaznamo lahko odzivnost našega uporabniškega vmesnika, kjer spremljamo preklop med stanji aplikacije, pa tudi njegovo intuitivnost, tako, da spremljamo premik miške po zaslonu in vidimo, ali se uporabnik \sn{lovi} po zaslonu. Poleg tehničnih metrik, pa lahko spremljamo še ostale metrike, kot so število obiskov strani, ali se stranke vračajo na našo stran, kakšen čas v povprečju preživijo na njej, ipd.
 
-Veliko teh metrik lahko spremljamo z uporabo orodij kot so Google Analytics \cite{ga_website} (nadalje GA), predvsem prej omenjene ne-tehnične metrike. GA je sicer orodje pisano za uporabo v klasičnih več-stranskih spletnih straneh, kjer se vsaka stran posebej naloži in takrat sproži dogodek, ki ga GA zabeleži, vendar lahko njegovo uporabo priredimo tako, da deluje tudi v aplikacijah na eni strani \cite{ga_spa}.
+Veliko teh metrik lahko spremljamo z uporabo orodij kot so Google Analytics \cite{ga_website} (nadalje GA), predvsem prej omenjene ne-tehnične metrike. GA je sicer orodje pisano za uporabo v klasičnih več-stranskih spletnih straneh, kjer se vsaka stran posebej naloži in takrat sproži dogodek, ki ga GA zabeleži, vendar lahko njegovo uporabo priredimo tako, da deluje tudi v enostranskih spletnih aplikacijah \cite{ga_spa}.
 
-V primeru da želimo spremljati tehnične metrike naše aplikacije na eni strani, pa hitro ugotovimo, da nam GA ne zadošča. Tukaj je iniciativo prevzel Microsoft, z razvojem orodja Mezzurite \cite{mezzurite_website}, (v času izdelave diplomske naloge je bil v verziji 1) ki ponuja zbiranje metrik za ogrodja Angular \cite{angular_website}, AngularJS \cite{angularjs_website} in React \cite{react_website}.
+V primeru da želimo spremljati tehnične metrike naše enostranske spletne aplikacije, pa hitro ugotovimo, da nam GA ne zadošča. Tukaj je iniciativo prevzel Microsoft, z razvojem orodja Mezzurite \cite{mezzurite_website}, (v času izdelave diplomske naloge je bil v verziji 1) ki ponuja zbiranje metrik za ogrodja Angular \cite{angular_website}, AngularJS \cite{angularjs_website} in React \cite{react_website}.
 
 Pri tem je Microsoft naletel na problem, da so navigacija in življenjski cikel aplikacije zelo odvisni od ogrodja, ki ga uporabljamo. Predstavili so rešitev, kjer so podprli samo tri ogrodja in v zameno olajšali delo razvijalcu, ki uporablja njihov produkt. Dolgih nosov so tako ostali razvijalci, ki uporabljajo npr. Vue.js (še eno izmed popularnih ogrodij). Ker pa se popularnost ogrodij in tehnologij zelo hitro spreminja, je pri takem pristopu treba biti neprestano obveščen o spremembah in jih poznati v globino. Ogrodje je potrebno poznati  precej dobro, da vemo kam umestiti naše spremljanje metrik. Tega se verjetno zaveda tudi Microsoft, saj je naznanil 2. verzijo Mezzurite platforme, kjer bo najverjetneje spremenil pristop.
 
 Sam sem v zasnovi moje implementacije izbral drugačen pristop kot Microsoft. Zasnoval sem generično rešitev, ki deluje neodvisno od uporabljenega ogrodja. Ta zahteva nekaj več dela s strani razvijalca in razvijalec mora poznati ogrodje, ki ga uporablja. Hkrati pa mu to omogoča, da prilagodi spremljanje metrik tako, da mu bo dalo karseda točne metrike, primerne za njegovo aplikacijo.
 
-\chapter{Razlike pri spremljanju metrik spletne aplikacije na eni strani (SPA) in klasične spletne strani}
+\chapter{Razlike pri spremljanju metrik enostranske spletne aplikacije (SPA) in klasične spletne strani}
 \label{ch1}
 
-Ker se aplikacije na eni strani razlikujejo v delovanju od klasičnih, se tako razlikuje tudi spremljanje metrik teh dveh pristopov. Merjenje metrik, je v tem primeru, potrebno prilagoditi drugačnemu načinu delovanja, da nam dajo bolj točne podatke. Nekatere od teh sprememb, pa potrebujejo tudi vpeljavo novih metrik, ki jih pri klasičnih straneh ne poznamo, saj pri SPA vplivajo na točnost rezultatov.
+Ker se enostranske spletne aplikacije razlikujejo v delovanju od klasičnih, se tako razlikuje tudi spremljanje metrik teh dveh pristopov. Merjenje metrik, je v tem primeru, potrebno prilagoditi drugačnemu načinu delovanja, da nam dajo bolj točne podatke. Nekatere od teh sprememb, pa potrebujejo tudi vpeljavo novih metrik, ki jih pri klasičnih straneh ne poznamo, saj pri SPA vplivajo na točnost rezultatov.
 
-Pri prehodu iz klasičnih strani na SPA, pa se ne spremenijo samo metrike, ampak tudi njihova pomembnost. Klasične strani so večinoma pisane tako, da brskalnik prenese že zgrajeno stran in jo uporabniku samo prikaže, Javascript koda pa se samo odziva na dogodke, ki jih uporabnik proži – to so lahko kliki na gumb, ti. drag\&drop ali pa premik miške – in tako niso zahtevni za izvajanje. Pri SPA pa brskalnik prenese Javascript kodo, katera šele nato zgradi uporabniški vmesnik na odjemalčevi strani.
+\section{Pomembnost metrik v enostranskih spletnih aplikacijah}
 
-Izvajanje te kode pa se tukaj ne konča, saj velika večina teh ogrodij podpira tudi dvostransko vezavo podatkov (ang. two-way data binding). Torej, ko nek podatek v kodi zamenja vrednost (kot posledica rezultata AJAX klica, ali pa uporabniškega vnosa), se ta sprememba takoj pozna na vmesniku. Za dosego tega, je potrebno, da v ozadju koda neprestano posluša za spremembe ter da prepozna, kdaj je potrebno vmesnik na novo izrisati. S tem koda v naši aplikaciji ni več pasivna, ampak deluje aktivno. To odpre pot možnim puščanjem pomnilnika ali pa upočasnitvam aplikacije.
+Pri prehodu iz klasičnih strani na SPA, se ne spremenijo samo metrike, ampak tudi njihova pomembnost. Klasične strani so večinoma pisane tako, da brskalnik prenese že zgrajeno stran in jo uporabniku samo prikaže, Javascript koda pa se samo odziva na dogodke, ki jih uporabnik proži – to so lahko kliki na gumb, ti. drag\&drop ali pa premik miške – in tako niso zahtevni za izvajanje. Pri SPA pa brskalnik prenese Javascript kodo, katera šele nato zgradi uporabniški vmesnik na odjemalčevi strani.
+
+Izvajanje te kode pa se tukaj ne konča, saj velika večina teh ogrodij podpira tudi dvostransko vezavo podatkov (ang. two-way data binding) [Ilustrirano na sliki \ref{img:angularjs_two_way_databind}]. Torej, ko nek podatek v kodi zamenja vrednost (kot posledica rezultata AJAX klica, ali pa uporabniškega vnosa), se ta sprememba takoj pozna na vmesniku. Za dosego tega, je potrebno, da v ozadju koda neprestano posluša za spremembe ter da prepozna, kdaj je potrebno vmesnik na novo izrisati. S tem koda v naši aplikaciji ni več pasivna, ampak deluje aktivno. To odpre pot možnim puščanjem pomnilnika ali pa upočasnitvam aplikacije.
 
 \begin{figure}[h]
 	\begin{center}
@@ -455,13 +460,15 @@ Izvajanje te kode pa se tukaj ne konča, saj velika večina teh ogrodij podpira 
 
 Poveča se potreba po spremljanju metrik, saj imamo v bistvu tudi na odjemalcu precej kompleksen del naše aplikacije.
 
+\section{Metrike v enostranskih spletnih aplikacijah}
+
 Ker je področje spremljanja metrik za SPA še precej novo, nimamo še poenotene terminologije za te metrike. Razne implementacije \cite{linkedin_rum}\cite{mezzurite_website} uporabljajo svojo terminologijo, vendar pa koncepti ostajajo isti.
 
 Pri vseh implementacijah je moč najti zagonski čas aplikacije (ang. application load time, oziroma krajše ALT). To je metrika, ki nam pove, koliko časa potrebuje naša aplikacija, da prenese zahtevane gradnike, naloži kodo ogrodja, ki ga uporabljamo in inicializira aplikacijo. Gre za precej pomembno metriko, saj če je zagonski čas predolg, lahko izgubimo kakšnega potencialnega uporabnika. Občutek predolgega nalaganja se velikokrat zmanjša tako, da najprej prikažemo stran, ki uporabniku sporoči, da se stran nalaga – v večini primerov je to krog, ki se vrti, ali pa kakšna črta, ki se obarva glede na napredek (pomislimo na Gmail odjemalca, ki nas obvesti, da se aplikacija nalaga, nato pa prikaže vsebino) – ko smo pa prepričani, da je aplikacija naložena, to stran skrijemo in prikažemo dejansko vsebino. Eden izmed načinov je tudi ta, da se poslužimo delnega strežniškega upodabljanja (ang. server-side rendering), tj. da stran delno izrišemo že na strežniku.
 
 Naslednja omembe vredna metrika se uporablja že pri klasičnih straneh. To je čas nalaganja strani (ang. page load time, oziroma krajše PLT). Pri klasičnih aplikacijah je to najpogostejša metrika, ki nas zanima, saj nam pove, kako hitro uporabnik vidi vsebino te strani. Toda, ko skušamo to metriko vpeljati tudi v SPA, pridemo hitro do nekaj vprašanj, s katerimi se nismo srečali pri klasičnih straneh. Prvo vprašanje, ki se nam zastavi je, kdaj se stran sploh smatra za naloženo? Ali je to, ko se naloži DOM? Ali, ko se nam izriše vmesnik? Mogoče takrat, ko pridobimo podatke?
 
-\begin{figure}[h]
+\begin{figure}[!htb]
 	\begin{center}
 		\includegraphics[width=0.9\textwidth]{Razlicni_nacini_obdelave_zahtev.png}
 	\end{center}
@@ -471,17 +478,25 @@ Naslednja omembe vredna metrika se uporablja že pri klasičnih straneh. To je �
 
 Pravega odgovora ni, saj to povsem zavisi kako smo stran zasnovali. Tudi podatke, ki jih pridobivamo dinamično z AJAX zahtevki, ne obravnavamo z enako prioriteto. Podatki, ki gradijo osnovni pogled, na primer tabelo, so najverjetneje sestavni del strani in morajo biti zajeti v času nalaganja strani, medtem ko podatek, ki nam prikazuje število neprebranih sporočil v orodni vrstici ni bistven in ga lahko iz te metrike izpustimo. V tem primeru mora razvijalec sam presoditi, kdaj je stran uporabna in se smatra kot naložena.
 
-Poleg že prej navedenega, pa je razlika tudi v navigaciji. Ali je ta stran prva, ki smo jo odprli, ali ena izmed sledečih? Namreč, kot je bilo že omenjeno, SPA se poslužujejo mehke navigacije. To je navigacija, ki spremeni url naslov in stanje zgodovine brskalnika z uporabo HTML5 history API-ja, brez, da bi se stran dejansko naložila. Posledica tega je, da je z izjemo prve, vsaka naslednja navigacija bistveno hitrejša. Torej če ne razlikujemo prve, \sn{trd} navigacije od ostalih, lahko hitro dobimo napačne podatke.
+\FloatBarrier
 
-V čem pa se prva navigacija pravzaprav razlikuje od ostalih? Tukaj se spomnimo prej omenjenega zagonskega časa aplikacije. Ob prvi navigaciji, se morajo prenesti gradniki aplikacije, in nato se mora aplikacija inicializirati. Prva navigacija je sestavljena iz zagonskega časa aplikacije in časa nalaganja strani.
+\section{Razlike v navigaciji}
+
+Poleg prej navedenega, pa se enostranske spletne aplikacije razlikujejo tudi v navigaciji. Pri nalaganju posamezne strani se je potrebno vprašati, ali je ta stran prva, ki smo jo odprli, ali ena izmed sledečih? Namreč, kot je bilo že omenjeno, SPA se poslužujejo mehke navigacije [Slika \ref{img:diff_multipage_spa}]. To je navigacija, ki spremeni url naslov in stanje zgodovine brskalnika z uporabo HTML5 history API-ja, brez, da bi se stran dejansko naložila. Posledica tega je, da je z izjemo prve, vsaka naslednja navigacija bistveno hitrejša. Torej če ne razlikujemo prve, \sn{trde} navigacije od ostalih, lahko  dobimo napačne podatke.
+
+V čem pa se prva navigacija pravzaprav razlikuje od ostalih? Tukaj se spomnimo prej omenjenega zagonskega časa aplikacije. Ob prvi navigaciji, se morajo prenesti gradniki aplikacije, nakar se mora aplikacija še inicializirati. Prva navigacija je zato sestavljena iz zagonskega časa aplikacije in časa nalaganja strani.
 
 Zaradi tega dejstva, hitro opazimo, da uporaba imena PLT pri SPA ni primerna. PLT pri klasičnih aplikacijah vsebuje tudi čas, ki ga porabimo da prenesemo gradnike strani, v primeru mehke navigacije, pa teh gradnikov ne prenašamo. To se zgodi samo v zagonskem času aplikacije. Zato je tukaj primernejše govoriti o času nalaganja pogleda oziroma VLT (View Load Time). Prva navigacija je tako sestavljena iz dveh metrik, vsaka nadaljnja pa le iz ene.
 
-Pri večini SPA ogrodij pa so strani v bistvu samo komponente. Tako bi lahko to metriko posplošili v čas nalaganja komponente (ang. component load time, oziroma krajše CLT). Čeprav VLT in CLT izgledata kot, da merita isto stvar, pa vendar obstaja razlika med njima. VLT se prične meriti, ko se navigacija začne. V vsakem ogrodju je to drugače implementirano, ampak običajno se navigacija začne, ko smo še na prejšnji strani. V VLT tako zajamemo tudi čas, ki ga ogrodje porabi, da razreši katero komponento mora prikazati za zahtevan url.
+\section{Posplošitev časa nalaganja strani v čas nalaganja komponente}
+
+Pri večini SPA ogrodij so strani v bistvu samo komponente. Tako se vprašamo ali bi lahko čas nalaganja pogleda posplošili v čas nalaganja komponente (ang. component load time, oziroma krajše CLT)? Čeprav VLT in CLT izgledata kot, da merita isto stvar, pa vendar obstaja razlika med njima. VLT se prične meriti, ko se navigacija začne. V vsakem ogrodju je to drugače implementirano, ampak običajno se navigacija začne, ko smo še na prejšnji strani. V VLT tako zajamemo tudi čas, ki ga ogrodje porabi, da razreši katero komponento mora prikazati za zahtevan url.
 
 Komponenta pa lahko pomeni tudi vnosno polje za datum -- ta komponenta ne bo imela svojega URL-ja, in bo lahko uporabljena na več straneh, ali pa celo večkrat na eni strani. Tukaj nas navigacija pravzaprav ne zanima, zanima nas samo koliko časa potrebuje komponenta, da se instancira in postane uporabna. Namesto na navigacijo, se tukaj zanašamo na življenjski cikel komponente. Vsaka komponenta ima, odvisno od ogrodja, definiran življenjski cikel, kjer se ustvari instanca komponente, izriše njen pogled, pridobi podatke, ki jih komponenta potrebuje in kjer se ta instanca izbriše iz spomina, ko je ne potrebujemo več.
 
 To metriko je smiselno uporabiti na bolj kompleksnih komponentah, oziroma ti. \sn{pametnih} komponentah, ki znajo podatke pridobivati in obdelovati, da tako spremljamo njihovo učinkovitost. Pri \sn{neumnih} komponentah, tistih, ki znajo podatke samo prikazati, ne pa tudi pridobiti, pa najverjetneje ni.
+
+Zaradi razlike v uporabi komponent, ki so pogledi in komponent, ki niso, je bolje, da čas nalaganja pogleda in čas nalaganja komponente obravnavamo in zajemamo ločeno.
 
 \chapter{Zajete metrike}
 \label{ch2}
@@ -494,11 +509,43 @@ Danes imamo namreč veliko spletnih standardov, ki jih ne podpirajo vsi brskalni
 	\begin{center}
 		\includegraphics[width=1\textwidth]{github_end_support.png}
 	\end{center}
-	\caption{Obvestilo na GitHub strani, odprti z Internet Explorer}
+	\caption{Obvestilo na GitHub strani, odprti z Internet Explorerjem}
 	\label{img:github_ie}
 \end{figure}
 
 Spremljamo pa lahko tudi metrike neformalne narave, kjer podatki nimajo neke številčne vrednosti, oziroma nam ta vrednost ne predstavlja neke dodane informacije. Tak primer je zajemanje premikov miške, kjer vidimo, kako intuitiven je naš vmesnik za uporabnika. Statistična analiza na teh podatkih nam ne bi prinesla ravno uporabnih podatkov, saj formula ne more vedeti, kako je naš uporabniški vmesnik zasnovan. V tem primeru, je veliko bolj smiselno podatke evaluirati vizualno.
+
+\section{Smiselne metrike}
+
+Obstaja več metrik, ki jih je smiselno spremljati. Nekatere od naštetih so specifične za enostranske aplikacije, medtem ko so druge uporabljane tudi v klasičnih spletnih straneh.
+
+\begin{description}
+	\item[CLT:] O času nalaganja komponente sem govoril že v poglavju \ref{ch1}.
+	\item[Beleženje poljubnih dogodkov:] S tem zajamemo poljubne enkratne dogodke, kot so recimo izvedba neke akcije ali pa odpiranje zunanje povezave, kar nam da večji vpogled v to, zakaj naši uporabniki uporabljajo našo aplikacijo.
+	\item[Spremljanje vračanja strank:] S hrambo stanja v internetnih piškotkih, lahko spremljamo kolikokrat je uporabnik že obiskal našo stran iz neke naprave. Iz teh podatkov lahko sklepamo,  ali se stranke vračajo na našo stran. V primerih, ko imamo v aplikacijo vključeno še avtentikacijo, lahko spremljamo ali naši uporabniki dostopajo do aplikacije z različnimi napravami.
+	\item[Spremljanje uporabniških naprav:] Velikokrat je smiselno spremljati tudi velikost zaslona in brskalnik. Tako lahko vidimo ali naši uporabniki pretežno uporabljajo mobilne naprave za dostop do aplikacije, kar pomeni, da moramo posvetiti več pozornosti odzivnemu uporabniškemu vmesniku.
+	\item[Spremljanje časa uporabnika na strani:] Smiselno je beležiti tudi čas, ki ga uporabnik porabi na določeni strani. To še posebej drži za strani, katerih glavna funkcionalnost je prikazovanje vsebine, naprimer razne novičarske strani, blogi ali forumi. Čeprav je veliko takih strani pisanih še kot klasične strani, pa so nekatere že pisane tudi kot enostranske spletne aplikacije. Spletni portal 24ur.com tako uporablja Angular ogrodje za prikaz novic. Obstajajo pa tudi razni generatorji statičnih strani, ki generirajo vsebino, posredujejo pa jo kot enostransko spletno aplikacijo, dva popularnejša sta Gatsby \cite{gatsby_website} in VuePress \cite{vuepress_website}. V kombinaciji s prej omenjenim beleženjem dogodkov, lahko dobimo res dobro sliko o kvaliteti naše storitve, ki jo uporabnikom ponujamo kot našo aplikacijo.
+	\item[Spremljanje uporabnikove lokacije:] Spremljanje od kod naši uporabniki dostopajo do aplikacije je tudi zelo pomembno. V primeru, da so naši strežniki preveč oddaljeni od naše glavne baze uporabnikov, jih je smiselno postaviti bližje.
+	\item[Zagonski čas aplikacije:] Zajamemo čas, ki ga naša aplikacija potrebuje od začetka navigacije do trenutka, ko je naša aplikacija prenešena in inicializirana in se je pričela odzivati na zahteve uporabnika.
+	\item[Čas nalaganja pogleda:] Čas, ki ga potrebuje aplikacija da izriše novo stran (po tem ko je aplikacija zagnana).
+	\item[Čas nalaganja gradnikov strani] Čas, ki ga gradniki strani potrebujejo, da se prenesejo. Ker ta čas zelo vpliva na zagonski čas aplikacije, ga je smiselno obravnavati posebej.
+\end{description}
+
+V nadaljevanju opišem s pomočjo katerih API-jev sem te metrike zajemal in podrobneje predstavim metrike, ki sem jih zajemal.
+
+\section{Zajemanje metrik}
+
+Za zajemanje metrik sem uporabil različne funkcionalnosti, ki jih brskalnik in Javascript ponujata.
+
+Najpogosteje sem se poslužil objekta Date, s katerim sem zajel čas ob določenem trenutku. To sem uporabil za merjenje zagonskega časa aplikacije in časa nalaganja pogleda.
+
+Pri merjenju zagonskega časa sem se poslužil uporabe HTML5 performance API-ja. Ta izpostavi metodo, ki nam vrne čas, ko je brskalnik pričel nalagati stran.
+
+Problem pri HTML5 API-jih za metrike, je ta, da standardizacija še poteka in tako niso zanesljivi. Veliko jih je v opuščanju, ker je v pripravi boljši predlog. Brskalnik Chrome ponuja veliko eksperimentalnih API-jev, vendar so tej lahko stvar spremembe ali pa ne delujejo zanesljivo. Ker pa so tej implementirani samo v Chromeu, pomeni, da metrike zajete s temi API-ji izključijo segment naših uporabnikov (teh, ki ne uporabljajo Chroma) in tako lahko vplivajo na kvaliteto naših podatkov.
+
+Izjemo sem naredil za eno lastnost performance API-ja in sicer PerformanceTiming objekt, ki nam izpostavi atribut navigationStart. Ta atribut je v opuščanju, vendar ga večina brskalnikov še vedno podpira. Kot nadomestilo tega atributa se uvaja atribut Performance objekta timeOrigin, ki pa ni še standardiziran. V svojem pristopu tako preverjam če je timeOrigin definiran in če ni, uporabim opuščeni PerformanceTiming objekt.
+
+Uporabil sem še poslušalca dogodka (ang. event listener) premika miške. Ta posluša za spremembo položaja miške in ob spremembi zabeleži novo pozicijo miške.
 
 \section{Zagon aplikacije}
 \label{ch2:sec1}
@@ -577,7 +624,7 @@ Enako kot pri zagonskem času aplikacije, nam storitev izpostavi poročilo te me
 
 Poročilo nam za vsako stran izpiše minimalni, maksimalni in povprečni čas nalaganja, število kolikokrat je bila ta stran obiskana in percentile, ki jih lahko poljubno specificiramo s parametri zahtevka. Storitev ponuja še en dodatni parameter, s katerim lahko povemo storitvi naj v poročilo vključi tudi FVLT, ne samo VLT.
 
-V poročilu \ref{page_load_report} pričakovano dobimo zelo kratke čase nalaganja pogleda, saj je navigacija v aplikacijah na eni strani precej hitra.
+V poročilu \ref{page_load_report} pričakovano dobimo zelo kratke čase nalaganja pogleda, saj je navigacija v enostranskih spletnih aplikacijah precej hitra.
 
 \section{Čas nalaganja gradnikov strani}
 \label{ch2:sec3}
@@ -662,21 +709,6 @@ Ko imamo izračunane vročinske stopnje, lahko s temi stopnjami izrišemo vroči
 
 Iz izrisanega vročinskega zemljevida lahko na neformalen način vidimo, ali se naši uporabniki preveč \sn{lovijo} po zaslonu, iz česar lahko sklepamo, da naš uporabniški vmesnik ni intuitiven. Vidimo pa lahko tudi množice najpogostejših akcij, ki jih uporabnik izbere. Če so gumbi za te akcije preveč oddaljeni med seboj, bo tako vročinski zemljevid izrisal pot med njimi, kar nam da informacijo, da je mogoče smiselno te gumbe premakniti bližje drug drugemu.
 
-\section{Dodatne metrike}
-\label{ch2:sec5}
-V tem poglavju, bi rad izpostavil še nekaj metrik, ki niso bile vključene v prototip, bi jih pa bilo v nadaljnjem razvoju smiselno dodati zaradi njihove uporabnosti.
-
-To so sledeče metrike:
-
-\begin{description}
-	\item[CLT:] O času nalaganja komponente sem govoril že v poglavju \ref{ch1}.
-	\item[Beleženje poljubnih dogodkov:] S tem zajamemo poljubne enkratne dogodke, kot so recimo izvedba neke akcije ali pa odpiranje zunanje povezave, kar nam da večji vpogled v to, zakaj naši uporabniki uporabljajo našo aplikacijo.
-	\item[Spremljanje vračanja strank:] S hrambo stanja v internetnih piškotkih, lahko spremljamo kolikokrat je uporabnik že obiskal našo stran iz neke naprave. Iz teh podatkov lahko sklepamo,  ali se stranke vračajo na našo stran. V primerih, ko imamo v aplikacijo vključeno še avtentikacijo, lahko spremljamo ali naši uporabniki dostopajo do aplikacije z različnimi napravami.
-	\item[Spremljanje uporabniških naprav:] Velikokrat je smiselno spremljati tudi velikost zaslona in brskalnik. Tako lahko vidimo ali naši uporabniki pretežno uporabljajo mobilne naprave za dostop do aplikacije, kar pomeni, da moramo posvetiti več pozornosti odzivnemu uporabniškemu vmesniku.
-	\item[Spremljanje časa uporabnika na strani:] Smiselno je beležiti tudi čas, ki ga uporabnik porabi na določeni strani. To še posebej drži za strani, katerih glavna funkcionalnost je prikazovanje vsebine, naprimer razne novičarske strani, blogi ali forumi. Čeprav je veliko takih strani pisanih še kot klasične strani, pa so nekatere že pisane tudi kot aplikacije na eni strani. Spletni portal 24ur.com tako uporablja Angular ogrodje za prikaz novic. Obstajajo pa tudi razni generatorji statičnih strani, ki generirajo vsebino, posredujejo pa jo kot aplikacijo na eni strani, dva popularnejša sta Gatsby \cite{gatsby_website} in VuePress \cite{vuepress_website}. V kombinaciji s prej omenjenim beleženjem dogodkov, lahko dobimo res dobro sliko o kvaliteti naše storitve, ki jo uporabnikom ponujamo kot našo aplikacijo.
-	\item[Spremljanje uporabnikove lokacije] Spremljanje od kod naši uporabniki dostopajo do aplikacije je tudi zelo pomembno. V primeru, da so naši strežniki preveč oddaljeni od naše glavne baze uporabnikov, jih je smiselno postaviti bližje.
-\end{description}
-
 \chapter{Zasnova generične rešitve za zbiranje in spremljanje uporabniških metrik}
 \label{ch3}
 
@@ -685,7 +717,7 @@ To so sledeče metrike:
 
 Pri snovanju rešitve za zbiranje uporabniških metrik v realnem času, moramo biti še posebej pozorni, da z zbiranjem metrik ne poslabšamo uporabniške izkušnje naših uporabnikov. Pri takem zbiranju podatkov, je lahko uporabnikov aplikacije zelo veliko. Če se naša storitev, ki metrike shranjuje, ne obnese dovolj dobro pri velikem številu zahtevkov, potem to lahko upočasni našo aplikacijo, katere metrike spremljamo.
 
-Naših uporabnikov pa te metrike ne zanimajo, njih zanima samo storitev, ki jo naša aplikacija ponuja.  V takem primeru, bodo uporabo naše aplikacije opustili in odšli h konkurenci. Najboljša rešitev za spremljanje metrik je torej taka, za katero uporabnik ne ve, ne da bi prebral ustrezna obvestila (opozorilo na piškotke in nova GDPR določila).
+Naših uporabnikov pa te metrike ne zanimajo, njih zanima samo storitev, ki jo naša aplikacija ponuja. V takem primeru, bodo uporabo naše aplikacije opustili in odšli h konkurenci. Najboljša rešitev za spremljanje metrik je torej taka, za katero uporabnik ne ve, ne da bi prebral ustrezna obvestila (opozorilo na piškotke in nova GDPR določila).
 
 Metrike zajema knjižnica, ki jo vključimo v aplikacijo, katero želimo spremljati. Ta knjižnica odpre povezavo s storitvijo preko WebSocket protokola. Povezava se tako vzpostavi samo enkrat in ostane odprta dokler uporabnik uporablja aplikacijo. Preko te povezave nato pošiljamo zajete metrike. Nekatere metrike, kot so časi nalaganja se prenesejo takoj, medtem ko se premiki miške shranjujejo v medpomnilnik in se na vsakih nekaj zapisov prenesejo v storitev, da tako zmanjšamo število poslanih sporočil. Ko ta sporočila prispejo na strežnik, jih ta takoj umesti v sporočilno vrsto.
 
@@ -1020,27 +1052,24 @@ Primeri grafov sicer uporabljajo podatke, ki so bili pridobljeni na precej majhn
 
 V realnem primeru je naša množica uporabnikov veliko večja, zaradi česar so tudi podatki bolj točni in se oblikujejo v normalno porazdelitev.
 
+\section{Povzetek funkcionalnosti rešitve}
+
+Rešitev diplomske naloge predstavlja zasnovana platforma. Ta platforma nam omogoča spremljanje metrik zagonskega časa aplikacije, časa nalaganja pogleda, časa nalaganja gradnikov in spremljanja premikov miške. Te metrike spremljamo v realnem času in na aktualni bazi uporabnikov aplikacije. Zasnovana je tako, da ima minimalen vpliv na uporabnika aplikacije in na njegovo uporabniško izkušnjo. Platforma deluje neodvisno od uporabljenega ogrodja za razvoj enostranskih spletnih aplikacij, edini pogoj za uporabo je ta, da razvijalec dobro pozna delovanje uporabljenega ogrodja, da lahko umesti kodo za zajemanje metrik na ustrezno mesto.
+
 \chapter{Sklepne ugotovitve}
 \label{ch4}
 
-Danes živimo v informacijski dobi. To pomeni, da so informacije postale ena izmed pomembnih surovin, ki jih podjetja potrebujejo za ustvarjanje dobička. Zajemanje metrik, opisanih v tej diplomski nalogi, je samo podmnožica vseh informacij, ki se zbirajo o nas. Če so to do včeraj počela samo FAANG/FAAMG podjetja (Facebook-Amazon-Apple-Netflix-Google oziroma Facebook-Amazon-Apple-Microsoft-Google), pa danes to počnejo tudi že veliko manjša podjetja. Zajemanje metrik bo tako samo še naraščalo v svoji pomembnosti in popularnosti.
+Cilj diplomske naloge je bil zasnovati platformo za spremljanje metrik enostranskih spletnih aplikacij. Pri tem sem bil uspešen, saj mi je uspelo zasnovati in razviti platformo, ki metrike ustrezno spremlja in je neodvisna od uporabljenega ogrodja za gradnjo enostranskih spletnih aplikacij.
 
-Tega se zavedajo tudi razvijalci brskalnikov in sodelavci W3C, saj se HTML5 APIji za merjenje metrik neprestano posodabljajo, spreminjajo in izboljšujejo. V času pisanja diplome se specifikacije APIjev šele oblikujejo in so še daleč od standardiziranega načina uporabe. V zasnovi so tako specifikacije za spremljanje pasovne širine uporabnika, spremljanje porabe energije na napravi ter še marsikaj drugega. Brskalniki jih trenutno vključujejo kot eksperimentalne funkcionalnosti, ki so lahko stvar spremembe. Za nekatere implementacije tudi velja, da ne delujejo še zanesljivo.
+Za dosego tega, sem najprej raziskal kakšne metrike so sploh primerne za take aplikacije in v čem se razlikujejo od ostalih metrik. Iz teh metrik sem jih nato izbral nekaj, ki so se mi zdele najbolj reprezentativne za enostranske aplikacije in najbolje demonstrirajo razliko v spremljanju metrik.
 
-Iz tega razloga je smiselno počakati na konec zasnove specifikacije preden začnemo tako metriko spremljati. Velikokrat nam lahko napačno zajeta metrika stori več škode, kot pa metrika, ki je ne zajemamo.
+Z implementacijo zasnovane platforme sem odkril tudi tehnične ovire pri spremljanju metrik. Pri tem sem se osredotočil na dve medsebojno povezani oviri -- veliko količino podatkov in dejstvo, da zbiranje metrik ne sme vplivati na uporabniško izkušnjo. Ti dve oviri sem obšel z uporabo praks za razvoj skalabilne programske opreme.
 
-Vsekakor pa sledi, da bo na tem področju še veliko razvoja, predvsem ko se bodo v razvoj aktivno vključili tudi spletni giganti kot so Google in Facebook. 
+Člani W3C in razvijalci brskalnikov se pomena spremljanja metrik zavedajo, saj je v pripravi veliko osnutkov in predlogov za dodatne HTML5 API-je, ki izpostavljajo veliko uporabnih metrik. Večina teh predlogov, v času pisanja te naloge, žal, ni še nikjer blizu implementacije. Najdemo jih tako v opuščanju, ali pa le v določenih brskalnikih (kot eksperimentalne funkcionalnosti). Ko bodo tej API-ji standardizirani in implementirani, bomo lahko dobili izredno natančno in celovito predstavo obnašanja naše aplikacije.
 
-\section{Nadaljnje delo}
-\label{ch4:sec1}
+Za nadaljnje delo na zasnovani platformi, pa ni potrebno čakati na implementacijo novih API-jev. Veliko metrik, opisanih v poglavju \ref{ch2:sec5}, se ne zanaša na te nove API-je in lahko njihovo spremljanje precej hitro implementiramo. Smiselno je dodati tudi grafični vmesnik, ki nam te podatke prikaže v neki človeku bolj prijazni obliki. S tem lahko metrike približamo tudi nekomu, ki nima tehničnega znanja.
 
-Prototip, ki je bil izdelan za potrebe diplomske naloge je še precej okleščen, saj ne zajema veliko metrik. Da bo taka storitev karseda uporabna za čim večjo množico razvijalcev je potrebno implementirati zajemanje večjega števila različnih metrik, tako tehničnih, kot ne-tehničnih, ki so bila omenjena v poglavju \ref{ch2:sec5}.
-
-Ker si je številske informacije lažje predstavljati v grafični obliki, je smiselno dodati tudi grafični vmesnik, ki generirana poročila prikaže v neki človeku bolj prijazni obliki. S tem lahko metrike približamo tudi nekomu, ki nima tehničnega znanja.
-
-Končno, je pa treba še slediti razvoju prej omenjenih metrik, katere specifikacije so še v razvoju.
-
-Skratka, dela je še veliko in ga razvijalcem, z interesom zbiranja metrik, ne bo zmanjkalo.
+Da zaključim, dela je še veliko in ga razvijalcem, z interesom zbiranja metrik, ne bo zmanjkalo.
 
 \newpage %dodaj po potrebi, da bo številka strani za Literaturo v Kazalu pravilna!
 \ \\
