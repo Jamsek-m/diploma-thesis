@@ -25,7 +25,7 @@
 \usepackage[section]{placeins}
 
 \usepackage{listings}
-\lstset{basicstyle=\ttfamily}
+\lstset{basicstyle=\footnotesize\ttfamily}
 \renewcommand{\lstlistingname}{Izsek izvorne kode}% Listing -> Algorithm
 \renewcommand{\lstlistlistingname}{Seznam izsekov izvorne kode}% List of Listings -> List of Algorithms
 
@@ -389,7 +389,7 @@ Dandanes je digitalna ekonomija že zelo razširjen pojav. Velik del podjetij vs
 
 Predvsem pri poslovnih modelih, ki se vrtijo okoli spletne strani – to so razne spletne trgovine in ostale storitve, ki so na voljo skozi spletne vmesnike – je uporabniška izkušnja eden izmed najpomembnejših faktorjev, s katerim uporabnika pritegnemo k uporabi naše storitve in ga tam tudi zadržimo. Uporabnik, ki ima na voljo dve razmeroma podobni storitvi, bo izbral tisto, ki ima preglednejši uporabniški vmesnik in se hitreje odziva na uporabnikove zahteve. 
 
-Pri ugotavljanju primernosti naše aplikacije in njene odzivnosti, nam pomagajo metrike. S spremljanjem ustreznih metrik, lahko dobimo povratne informacije, katere uporabimo za izboljšanje naše aplikacije. Pozoren pa ni treba biti samo na ustreznost zajetih metrik, ampak tudi na ustrezno zajemanje teh metrik. Delovanje danes popularnih enostranskih spletnih aplikacij je precej drugačno od delovanja klasičnih strani.
+Pri ugotavljanju primernosti naše aplikacije in njene odzivnosti, nam pomagajo metrike. S spremljanjem ustreznih metrik, lahko dobimo povratne informacije, katere uporabimo za izboljšanje naše aplikacije. Pozorni pa ne smemo biti samo na ustreznost zajetih metrik, ampak tudi na ustrezno zajemanje teh metrik. Delovanje danes popularnih enostranskih spletnih aplikacij je precej drugačno od delovanja klasičnih strani.
 
 Zaradi razlik v delovanju takih aplikacij, so metrike, ki smo jih spremljali pri klasičnih, neprimerne. Primer ene take metrike je čas nalaganja strani (ang. page load time oziroma krajše PLT). Ker moramo pri SPA ločiti \sn{trdo} od \sn{mehke} navigacije (saj \sn{trda} vsebuje tudi zagonski čas aplikacije, ki je še ena od metrik, ki ni prisotna pri klasičnih straneh), moramo tukaj postopati drugače \cite{hard_vs_soft_navigation} \cite{spa_presentation}.
 
@@ -502,14 +502,14 @@ Zaradi razlike v uporabi komponent, ki so pogledi in komponent, ki niso, je bolj
 V enostranskih aplikacijah lahko spremljamo veliko število smiselnih metrik. Spodaj naštete metrike, so zelo primerne za uporabo v enostranskih aplikacijah, kljub temu pa nekatere izmed njih lahko uporabimo tudi pri klasičnih spletnih straneh.
 
 \begin{description}
-	\item[čas nalaganja komponente:] O času nalaganja komponente smo govorili že v poglavju \ref{ch1}.
+	\item[Čas nalaganja komponente:] O času nalaganja komponente smo govorili že v poglavju \ref{ch1}.
 	\item[Beleženje poljubnih dogodkov:] S tem zajamemo poljubne enkratne dogodke, kot so recimo izvedba neke akcije ali pa odpiranje zunanje povezave, kar nam da večji vpogled v to, zakaj naši uporabniki uporabljajo našo aplikacijo.
 	\item[Spremljanje vračanja strank:] S hrambo stanja v internetnih piškotkih, lahko spremljamo kolikokrat je uporabnik že obiskal našo stran iz neke naprave. Iz teh podatkov lahko sklepamo,  ali se stranke vračajo na našo stran. V primerih, ko imamo v aplikacijo vključeno še avtentikacijo, lahko spremljamo ali naši uporabniki dostopajo do aplikacije z različnimi napravami.
 	\item[Spremljanje uporabniških naprav:] Velikokrat je smiselno spremljati tudi velikost zaslona in brskalnik. Tako lahko vidimo ali naši uporabniki pretežno uporabljajo mobilne naprave za dostop do aplikacije, kar pomeni, da moramo posvetiti več pozornosti odzivnemu uporabniškemu vmesniku.
-	\item[Spremljanje časa uporabnika na strani:] Smiselno je beležiti tudi čas, ki ga uporabnik porabi na določeni strani. To še posebej drži za strani, katerih glavna funkcionalnost je prikazovanje vsebine, naprimer razne novičarske strani, blogi ali forumi. Čeprav je veliko takih strani pisanih še kot klasične strani, pa so nekatere že pisane tudi kot enostranske spletne aplikacije. Spletni portal 24ur.com tako uporablja Angular ogrodje za prikaz novic. Obstajajo pa tudi razni generatorji statičnih strani, ki generirajo vsebino, posredujejo pa jo kot enostransko spletno aplikacijo, dva popularnejša sta Gatsby \cite{gatsby_website} in VuePress \cite{vuepress_website}. V kombinaciji s prej omenjenim beleženjem dogodkov, lahko dobimo res dobro sliko o kvaliteti naše storitve, ki jo uporabnikom ponujamo kot našo aplikacijo.
+	\item[Spremljanje časa uporabnika na strani:] Smiselno je beležiti tudi čas, ki ga uporabnik porabi na določeni strani. To še posebej drži za strani, katerih glavna funkcionalnost je prikazovanje vsebine, na primer razne novičarske strani, blogi ali forumi. Čeprav je veliko takih strani pisanih še kot klasične strani, pa so nekatere že pisane tudi kot enostranske spletne aplikacije. Spletni portal 24ur.com tako uporablja Angular ogrodje za prikaz novic. Obstajajo pa tudi razni generatorji statičnih strani, ki generirajo vsebino, posredujejo pa jo kot enostransko spletno aplikacijo, dva popularnejša sta Gatsby \cite{gatsby_website} in VuePress \cite{vuepress_website}. V kombinaciji s prej omenjenim beleženjem dogodkov, lahko dobimo res dobro sliko o kvaliteti naše storitve, ki jo uporabnikom ponujamo kot našo aplikacijo.
 	\item[Spremljanje uporabnikove lokacije:] Spremljanje od kod naši uporabniki dostopajo do aplikacije je zelo pomembno. V primeru, da so naši strežniki preveč oddaljeni od naše glavne baze uporabnikov, jih je smiselno postaviti bližje.
 	\item[Zagonski čas aplikacije:] Zajamemo čas, ki ga naša aplikacija potrebuje od začetka navigacije do trenutka, ko je naša aplikacija prenešena in inicializirana in se je pričela odzivati na zahteve uporabnika.
-	\item[Čas nalaganja pogleda:] Čas, ki ga potrebuje aplikacija da izriše novo stran (po tem, ko je aplikacija zagnana).
+	\item[Čas nalaganja pogleda:] Čas, ki ga potrebuje aplikacija, da izriše novo stran (po tem, ko je aplikacija zagnana).
 	\item[Čas nalaganja gradnikov strani:] Čas, ki ga gradniki strani potrebujejo, da se prenesejo. Ker ta čas zelo vpliva na zagonski čas aplikacije, ga je smiselno obravnavati posebej.
 	\item[Spremljanje uporabe aplikacije:] Ker se v enostranskih aplikacijah stanje ohranja pri prehodu na novo stran, lahko spremljamo uporabo naše aplikacije tako, da sledimo poti, ki jo uporabnik gradi z odpiranjem novih strani naše aplikacije.
 	\item[Spremljanje premikov miške:] Z zajemanjem premikov miške, lahko zaznamo razdalje, ki jih uporabnik \sn{prepotuje} z miško po ekranu. Ta podatek lahko potem vizualno prikažemo na vročinskem zemljevidu. Iz tega zemljevida lahko razberemo ali je možno te prepotovane razdalje optimizirati, da izboljšamo uporabniško izkušnjo.
@@ -540,7 +540,7 @@ Za zajemanje metrik smo uporabili različne funkcionalnosti, ki jih brskalnik in
 
 Problem pri HTML5 API-jih za metrike, je ta, da standardizacija še poteka in tako niso zanesljivi. Veliko jih je v opuščanju, ker je v pripravi boljši predlog. Brskalnik Chrome, ki ga izdeluje podjetje Google, ponuja veliko eksperimentalnih API-jev, vendar so tej lahko stvar spremembe ali pa ne delujejo zanesljivo. Ker pa so implementirani samo v Chromeu, pomeni, da metrike zajete s temi API-ji izključijo segment naših uporabnikov (teh, ki ne uporabljajo Chroma) in tako lahko vplivajo na kvaliteto naših podatkov.
 
-Izjemo smo naredili za eno lastnost performance API-ja in sicer PerformanceTiming objekt, ki nam izpostavi lastnost navigationStart. Ta lastnost je v opuščanju, vendar jo večina brskalnikov še vedno podpira. Kot nadomestilo te lastnosti se uvaja lastnost Performance objekta timeOrigin, ki pa ni še standardizirana. V našem pristopu tako preverjamo, če je timeOrigin definiran in če ni, uporabimo opuščeni PerformanceTiming objekt.
+Izjemo smo naredili za eno lastnost performance API-ja in sicer objekt PerformanceTiming, ki nam izpostavi lastnost navigationStart. Ta lastnost je v opuščanju, vendar jo večina brskalnikov še vedno podpira. Kot nadomestilo te lastnosti se uvaja lastnost Performance objekta timeOrigin, ki pa ni še standardizirana. V našem pristopu tako preverjamo, če je timeOrigin definiran in če ni, uporabimo opuščeni PerformanceTiming objekt.
 
 Uporabili smo še poslušalca dogodka (ang. event listener) premika miške. Ta posluša za spremembo položaja miške in ob spremembi zabeleži novo pozicijo miške.
 
@@ -744,7 +744,7 @@ Za prototip generične rešitve, je bilo potrebno implementirati spletno storite
 \subsection{Knjižnica}
 \label{ch3:sec2:sub1}
 
-Čeprav je Javascript še vedno edini jezik, ki ga brskalniki podpirajo, pa danes poznamo veliko načinov za pisanje spletnih aplikacij. Kot de facto standard za distribucijo spletnih aplikacij se uporablja ECMAScript 5 verzijo Javascripta. Ker je pa to zelo star standard, praktično noben razvijalec ne uporablja več te verzije. Tako je najpogostejši proces tak, da pišemo našo aplikacijo v novejši verziji Javascripta (ta je trenutno ES10, oziroma ECMAScript 2019), nato pa uporabimo prevajalnik (ang. transpiler), ki prevede kodo na starejšo verzijo. Najpopularnejši Javascript prevajalnik je trenutno Babel.
+Čeprav je Javascript še vedno edini jezik, ki ga brskalniki podpirajo, pa danes poznamo veliko načinov za pisanje spletnih aplikacij. Kot de facto standard za distribucijo spletnih aplikacij se uporablja ECMAScript 5 verzijo Javascripta. Ker je pa to zelo star standard, praktično noben razvijalec ne uporablja več te verzije. Tako je najpogostejši proces tak, da pišemo našo aplikacijo v novejši verziji Javascripta (ta je trenutno ES10, oziroma ECMAScript 2019), nato pa uporabimo prevajalnik (ang. transpiler), ki prevede kodo na starejšo verzijo. Najpopularnejši prevajalnik Javascript je trenutno Babel.
 
 Ni pa to edini način, ki se danes uporablja za razvoj aplikacij. Microsoft je razveselil velik del razvijalcev, ko je zasnoval TypeScript, jezik enak Javascriptu, ki pa v koraku prevajanja preveri tudi podatkovne tipe spremenljivk in nam tako ponudi statično preverjanje tipov.
 
@@ -798,10 +798,14 @@ public static sendMessage(message: SocketMessage): void {
 
 private static onSocketMessage(e: MessageEvent): void {
   try {
-    const message: SocketMessage = Object.assign(new SocketMessage(), JSON.parse(e.data));
+    const message: SocketMessage = Object.assign(
+        new SocketMessage(),
+        JSON.parse(e.data)
+    );
     SocketHandlerService.handleSocketMessage(message);
   } catch (e) {
-    Logger.error("Error parsing socket message. Message must be valid JSON!");
+    Logger.error("Error parsing socket message." +
+        " Message must be valid JSON!");
   }
 }
 \end{lstlisting}
@@ -1121,7 +1125,7 @@ private void calculatePercentilesForAppLoad(
 
 Za namestitev storitve smo uporabili orodji za virtualizacijo Docker in Docker Compose. Storitev se zapakira v datoteko JAR, nato pa uporabimo to datoteko, da zgradimo sliko vsebnika Docker [Izvorna koda \ref{code:dockerfile}]. Ostali gradniki, od katerih je storitev odvisna -- Kafka, Zookeeper in podatkovna baza PostgreSQL, so ravno tako prenešeni v obliki slike Docker.\newline
 
-\begin{lstlisting}[label=code:dockerfile, caption=Dockerfile za storitev]
+\begin{lstlisting}[label=code:dockerfile, caption=Dockerfile za storitev, float=h]
 FROM openjdk:11-jre-slim
 
 ENV JAVA_ENV=PRODUCTION
@@ -1139,7 +1143,7 @@ EXPOSE 8080
 CMD ["java", "-jar", "metrics-monitor.jar"]
 \end{lstlisting} 
 
-Ker so gradniki tudi med seboj odvisni, moramo biti pozorni pri vrstnem redu zagona teh gradnikov. Proces lahko poenostavimo z uporabo orodja Docker Compose [Izvorna koda \ref{code:docker_compose}]. To orodje nam omogoča, da izpostavimo odvisnosti med gradniki katere zna nato pognati v pravilnem vrstnem redu. Zgrajene slike se hranijo v privatnem Docker registru, ki je gostovan na istem Nexus strežniku, kot prej omenjen NPM repozitorij.
+Ker so gradniki tudi med seboj odvisni, moramo biti pozorni pri vrstnem redu zagona teh gradnikov. Proces lahko poenostavimo z uporabo orodja Docker Compose [Izvorna koda \ref{code:docker_compose}]. To orodje nam omogoča, da izpostavimo odvisnosti med gradniki katere zna nato pognati v pravilnem vrstnem redu. Zgrajene slike se hranijo v privatnem registru Docker, ki je gostovan na istem strežniku Nexus, kot prej omenjen repozitorij NPM.
 
 \section{Prototip}
 \label{ch3:sec3}
@@ -1196,11 +1200,14 @@ services:
       - kafka
       - postgres
     environment:
-      KUMULUZEE_DATASOURCES0_CONNECTIONURL: jdbc:postgresql://postgres:5433/metrics-monitor
+      KUMULUZEE_DATASOURCES0_CONNECTIONURL:
+          jdbc:postgresql://postgres:5433/metrics-monitor
       KUMULUZEE_DATASOURCES0_USERNAME: postgres
       KUMULUZEE_DATASOURCES0_PASSWORD: postgres
-      KUMULUZEE_STREAMING_KAFKA_PRODUCER_BOOTSTRAPSERVERS: kafka:9092
-      KUMULUZEE_STREAMING_KAFKA_CONSUMER_BOOTSTRAPSERVERS: kafka:9092
+      KUMULUZEE_STREAMING_KAFKA_PRODUCER_BOOTSTRAPSERVERS:
+          kafka:9092
+      KUMULUZEE_STREAMING_KAFKA_CONSUMER_BOOTSTRAPSERVERS:
+          kafka:9092
     networks:
       - metrics-net
 \end{lstlisting}
@@ -1211,7 +1218,7 @@ Docker Compose bo prebral to datoteko, prenesel vse potrebne slike vsebnikov, ji
 
 \subsubsection{Namestitev in uporaba knjižnice}
 
-Knjižnico se v aplikacijo lahko vključi na dva načina. Prvi je klasični, kjer knjižnico naložimo kot Javascript datoteko z uporabo HTML elementa \verb|<script>|. Pri takem načinu uporabe je knjižnica dostopna preko globalnega objekta.
+Knjižnico se v aplikacijo lahko vključi na dva načina. Prvi je klasični, kjer knjižnico naložimo kot datoteko Javascript z uporabo HTML elementa \verb|<script>|. Pri takem načinu uporabe je knjižnica dostopna preko globalnega objekta.
 
 Drugi, priporočen način uporabe, je z namestitvijo knjižnice preko NPM-ja. To storimo s preprostim ukazom \verb|npm install --save metrics-monitor|. V takem primeru običajno uporabljamo kakšno orodje kot je Webpack, saj knjižnico vključimo samo v Javascript datoteko, to orodje pa nato zazna uporabo knjižnice in jo doda preostali kodi.
 
@@ -1254,7 +1261,7 @@ MetricsMonitor.init({
 
 Kot je razvidno iz [Izvorna koda \ref{code:lib_main_ts_after}], imamo še dva opcijska parametra: prvi je stopnja beleženja dnevnika -- ko razvijamo in testiramo aplikacijo je bolje imeti sporočila z več podrobnostmi, ki jih v produkciji raje ne prikazujemo.
 
-Drugi parameter pa pride prav, ko imamo dinamične strani. To so strani, ki spreminjajo vsebino glede na URL parameter, obdržijo pa enako strukturo. Na [Slika \ref{img:heatmap}] vidimo seznam. Če kliknemo na katero izmed vrstic v seznamu, se nam odpre stran, ki prikazuje različne podatke glede na izbrano vrstico. Kar se spreminja je identifikacijski ključ elementa, ki določi katera vsebina se prikaže. Velikokrat je smiselno, da take strani združimo v eno, z uporabo ohranitvenika (ang. placeholder), kar nam uporaba tega parametra omogoča.
+Drugi parameter pa pride prav, ko imamo dinamične strani. To so strani, ki spreminjajo vsebino glede na parameter URL, obdržijo pa enako strukturo. Na [Slika \ref{img:heatmap}] vidimo seznam. Če kliknemo na katero izmed vrstic v seznamu, se nam odpre stran, ki prikazuje različne podatke glede na izbrano vrstico. Kar se spreminja je identifikacijski ključ elementa, ki določi katera vsebina se prikaže. Velikokrat je smiselno, da take strani združimo v eno, z uporabo ohranitvenika (ang. placeholder), kar nam uporaba tega parametra omogoča.
 
 \paragraph{Zajem zagonskega časa aplikacije in začetka nalaganja pogleda}
 
@@ -1301,7 +1308,10 @@ export class FirstPageComponent implements OnInit, AfterViewInit {
 
   public displayedData: any[] = [];
 
-  constructor(private router: Router, private dataService: DataService) { }
+  constructor(
+      private router: Router,
+      private dataService: DataService
+  ) { }
 
   ngOnInit() {
     // 1. primerno mesto:
