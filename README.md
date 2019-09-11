@@ -3,7 +3,7 @@
 
 ## Information
 
-**Title**: Zasnova in razvoj platforme za spremljanje metrik HTML5 spletnih aplikacij (Design and development of the platform for monitoring metrics of HTML5 web applications)
+**Title**: Zasnova in razvoj platforme za spremljanje metrik spletnih aplikacij HTML5 (Design and implementation of platform for monitoring metrics of HTML5 web applications)
 
 **Author**: Miha Jamšek
 
@@ -11,19 +11,19 @@
 
 ## Abstract (SL)
 
-Spremljanje metrik dandanes postaja vedno bolj pomembna aktivnost. S spremljanjem raznih metrik  dobimo povratne informacije o kvaliteti aplikacije, intuitivnosti njenega uporabniškega vmesnika in o njenih uporabnikih, ki jih lahko uporabimo za izboljšanje naše aplikacije in storitve.
+Spremljanje metrik spletnih aplikacij dandanes postaja vedno bolj pomembna aktivnost. S spremljanjem metrik  dobimo povratne informacije o kvaliteti aplikacije, intuitivnosti njenega uporabniškega vmesnika in o njenih uporabnikih, ki jih lahko uporabimo za izboljšanje naše aplikacije in storitve.
 
-Eden izmed načinov spremljanja metrik je spremljanje uporabnikov v realnem času. Meritve tako opravljamo na realnih uporabnikih in ne več na manjši množici testnih uporabnikov. Čeprav se metrike lahko spremlja pri vseh programih, se v nalogi osredotočim na spletne aplikacije, kjer so se z  vpeljavo aplikacij na eni strani (ang. single page applications) spremenile metrike, ki jih zajemamo in način kako jih zajemamo.
+V diplomski nalogi se ukvarjamo s problematiko spremljanja metrik. Pri tem se osredotočamo na pasivno spremljanje metrik, ki spremljanje izvaja na celotni množici uporabnikov aplikacije. Podrobneje raziščemo eno izmed tehnologij pasivnega spremljanja – spremljanje metrik v realnem času in uporabo te tehnologije v enostranskih spletnih aplikacijah (ang. single page application), ki so dandanes zelo popularne, s svojim drugačnim načinom delovanja od klasičnih spletnih strani pa zahtevajo spremembe tudi pri zbiranju metrik.
 
-Cilj diplomske naloge je bil razviti generično rešitev za spremljanje metrik spletnih aplikacij, ki deluje neodvisno od uporabljenega ogrodja.
+Rezultat diplomske naloge je generična platforma za spremljanje metrik, prilagojena za enostranske spletne aplikacije. Platforma nam omogoča zajemanje metrik, pomembnih za enostranske spletne aplikacije, v realnem času in neodvisno od uporabljenega ogrodja za izdelavo takih aplikacij.
 
 ## Abstract (EN)
 
-Nowadays metrics monitoring is becoming increasingly important activity. With monitoring of various metrics, we get feedback about application quality, how intuitive its user interface is and about its users, which we can use to improve our application and service.
- 
-One way to monitor metrics is by monitoring users in real time. Monitoring is done on real users and not anymore on smaller test group of users. Even though we can monitor metrics in all programs in my thesis I focus on web applications. With introduction of single page applications monitored metrics have changed together with the way we are monitoring them.
+Nowadays metrics monitoring is becoming increasingly important activity. With monitoring of various metrics, developers get feedback about application quality, intuitiveness of user interface and application's users, which developers can use to improve their application and service.
 
-Goal of diploma thesis was to design generic solution for monitoring metrics of web applications, which works independently of used framework.
+In diploma thesis we deal with the topic of monitoring metrics. We are focusing on passive monitoring that is monitoring whole set of application users. Further, we are researching one of the technologies of passive monitoring – real user monitoring and its usage in single page applications. Today very popular single page applications, with their different way of working than classical web pages, demand some changes in the way we collect metrics.
+
+Result of diploma thesis is a generic platform for metrics monitoring, adjusted for single page applications. Platform enables monitoring of metrics, important for single page applications, in real time and independently of used framework for development of such applications.
 
 ## Content
 
