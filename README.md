@@ -1,13 +1,17 @@
 # Diploma thesis
-> My diploma thesis for undergraduate study of computer and information science at University of Ljubljana.
+> My diploma thesis for undergraduate study of Bachelor of Computer and Information Science at University of Ljubljana.
 
 ## Information
 
-**Title**: Zasnova in razvoj platforme za spremljanje metrik spletnih aplikacij HTML5 (Design and implementation of platform for monitoring metrics of HTML5 web applications)
+> *Thesis was successfully defended on 13.09.2019*
+
+**Title (SL)**: Zasnova in razvoj platforme za spremljanje metrik spletnih aplikacij HTML5
+
+**Title (EN)**: Design and implementation of platform for monitoring metrics of HTML5 web applications
 
 **Author**: Miha Jamšek
 
-**Educational organization**: Faculty of computer and information science, University of Ljubljana, Slovenia
+**Educational organization**: Faculty of Computer and Information Science, University of Ljubljana, Slovenia
 
 ## Abstract (SL)
 
@@ -19,11 +23,11 @@ Rezultat diplomske naloge je generična platforma za spremljanje metrik, prilago
 
 ## Abstract (EN)
 
-Nowadays metrics monitoring is becoming increasingly important activity. With monitoring of various metrics, developers get feedback about application quality, intuitiveness of user interface and application's users, which developers can use to improve their application and service.
+Metrics monitoring is nowadays becoming an increasingly important activity. By monitoring various application metrics, developers get feedback on the application quality, intuitiveness of the user interface and application's users, which developers can then use to improve their application and service.
 
-In diploma thesis we deal with the topic of monitoring metrics. We are focusing on passive monitoring that is monitoring whole set of application users. Further, we are researching one of the technologies of passive monitoring – real user monitoring and its usage in single page applications. Today very popular single page applications, with their different way of working than classical web pages, demand some changes in the way we collect metrics.
+In this thesis we deal with the topic of monitoring metrics. We are focusing on the passive monitoring that is monitoring a whole set of application users. Further, we are researching one of the technologies of passive monitoring – real user monitoring and its usage in single page applications, which differ from the classical web pages and thus demand some changes in the way we collect their metrics.
 
-Result of diploma thesis is a generic platform for metrics monitoring, adjusted for single page applications. Platform enables monitoring of metrics, important for single page applications, in real time and independently of used framework for development of such applications.
+Result of the thesis is a generic platform for metrics monitoring, adjusted for the single page applications. Platform enables monitoring of metrics, important for the single page applications, in real time and independently of the used framework for development of such applications.
 
 ## Content
 
@@ -47,6 +51,7 @@ Result of diploma thesis is a generic platform for metrics monitoring, adjusted 
 Technologies used for platform:
 * KumuluzEE - JavaEE web framework with Jetty Servlet
 * Maven - Java dependencies manager
+* Nexus - private NPM repository
 * Typescript - JavaScript transpiler
 * Webpack - JavaScript bundler
 * Apache Kafka - Event streaming service
